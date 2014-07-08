@@ -10,5 +10,6 @@ class CreateUsersTable < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :users, [:username, :email], unique: true
   end
 end
