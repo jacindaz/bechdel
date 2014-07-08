@@ -9,3 +9,7 @@ The test is named after the American cartoonist Alison Bechdel. In 1985, she had
 ###About this Web Application
 
 This web app will be built using Rails, Test Driven Development using capybara and rspec, jQuery, and GroundCSS.
+
+###My Entity Relationship Diagram
+
+[ER diagram](Bechdel-Test-ER-diagram.png)
