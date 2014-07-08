@@ -4,6 +4,8 @@ class CreateVotesTable < ActiveRecord::Migration
       t.integer :movie_id, null: false
       t.integer :user_id, null: false
       t.integer :vote, null: false
+
+      t.timestamps
     end
   end
 end

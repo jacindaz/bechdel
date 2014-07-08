@@ -8,7 +8,7 @@ The test is named after the American cartoonist Alison Bechdel. In 1985, she had
 
 ###About this Web Application
 
-This web app will be built using Rails, Test Driven Development using capybara and rspec, jQuery, and GroundCSS.
+This web app will be built using Rails, Test Driven Development using capybara and rspec, jQuery, and the Refills CSS framework.
 
 ###My Entity Relationship Diagram
 
