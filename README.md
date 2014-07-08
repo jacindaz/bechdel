@@ -12,4 +12,4 @@ This web app will be built using Rails, Test Driven Development using capybara a
 
 ###My Entity Relationship Diagram
 
-[ER diagram](Bechdel-Test-ER-diagram.png)
+![ER diagram](Bechdel-Test-ER-diagram.png)
