@@ -8,6 +8,14 @@
 </head>
 <body>
 
+<h3><%= notice %></h3>
+
+<% if user_signed_in? %>
+  <p>Hello <%= current_user %>, you are signed in.</p>
+<% else %>
+  <p>You are not signed in.</p>
+<% end %>
+
 <%= yield %>
 
 </body>
