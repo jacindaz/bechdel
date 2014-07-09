@@ -5,11 +5,6 @@ FactoryGirl.define do
     @ratings_array[n]
   end
 
-  sequence(:random_year) do |n|
-    @ratings_array = (1900..2014).to_a.shuffle
-    @ratings_array[n]
-  end
-
   sequence(:random_id) do |n|
     @ratings_array = (1..50).to_a.shuffle
     @ratings_array[n]
@@ -19,25 +14,17 @@ FactoryGirl.define do
     [-1, 1].sample
   end
 
-  sequence(:random_language) do |n|
-    ["English", "French", "Spanish", "Chinese", "Swedish"].sample
-  end
-
-  factory :user do
-    sequence(:username) { |n| "username #{n}" }
-    provider "Github"
-    location "Cambridge"
-    email "jacindaz@gmail.com"
-  end
-
   factory :movie do
     sequence(:title) {|n| "movie title #{n}"}
-    year { generate(:random_year) }
+    sequence(:year) {|n| n + 1}
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
-    language { generate(:random_language) }
-    country_produced "France"
+    sequence(:language) {|n| "movie language #{n}"}
+    country_produced "USA"
     bechdel_rating "passed"
-    user
+    # poster_url "http://www.google.com"
+    # rotten_tomatoes_rating { generate(:random_movie_rating) }
+    # movie_url "http://www.imgur.com/"
+    user_id { generate(:random_id) }
   end
 
   factory :actress do
