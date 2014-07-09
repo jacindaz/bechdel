@@ -32,4 +32,5 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'annotate', ">=2.6.0"
 end
