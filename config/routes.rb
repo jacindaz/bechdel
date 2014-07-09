@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  resources :movies do
+  resources :movies, only: [:index, :show, :new, :create] do
     resources :votes, only: [:new, :create]
     resources :comments, only: [:new, :create]
   end
-  resources :actresses
 
   root 'movies#index'
 

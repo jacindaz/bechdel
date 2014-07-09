@@ -47,9 +47,9 @@ ActiveRecord::Schema.define(version: 20140709145338) do
     t.string   "language",                               null: false
     t.string   "country_produced",                       null: false
     t.string   "bechdel_rating",   default: "no rating", null: false
-    t.integer  "user_id",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "movies", ["title"], name: "index_movies_on_title", unique: true, using: :btree

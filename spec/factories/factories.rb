@@ -19,7 +19,7 @@ FactoryGirl.define do
     sequence(:year) {|n| n + 1}
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
     sequence(:language) {|n| "movie language #{n}"}
-    country "USA"
+    country_produced "USA"
     bechdel_rating "passed"
     # poster_url "http://www.google.com"
     # rotten_tomatoes_rating { generate(:random_movie_rating) }
