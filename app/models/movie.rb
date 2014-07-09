@@ -10,10 +10,8 @@ class Movie < ActiveRecord::Base
   validate :summary, presence: true
   validate :language, presence: true
   validate :country_produced, presence: true
-  validate :bechdel_rating, presence: true
+  validate :bechdel_rating, presence: true, inclusion: { in: %w(pass not) }
   validate :poster_url, presence: true
   validate :movie_url, presence: true
   validate :user_id, presence: true
-  validate :actresses_id, presence: true
-
 end
