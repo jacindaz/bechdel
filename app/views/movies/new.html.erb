@@ -1,0 +1,12 @@
+<h3>Submit a New Movie</h3>
+
+<%= simple_form_for(@movie) do |f| %>
+
+  <%= f.input :title %>
+  <%= f.input :year, collection: (1900..2014).to_a.reverse, prompt: "Select year produced" %>
+  <%= f.input :summary %>
+  <%= f.input :language, collection: ["English", "French", "Spanish", "Chinese", "Swedish"], prompt: "Select language spoken" %>
+  <%= f.input :country_produced, collection: Movie::COUNTRIES, prompt: "Country movie produced" %>
+  <%= f.button :submit, "Submit New Movie" %>
+
+<% end %>
