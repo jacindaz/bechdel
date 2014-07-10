@@ -10,3 +10,6 @@
 <br>
 <h4>Summary</h4>
 <p><%= @movie.summary %></p>
+
+<%= button_to "Vote Up", movie_vote_path([@movie, @vote], params.merge(vote: 1)), action: :update, method: :patch, role: "button" %>
+<%= button_to "Vote Down", movie_vote_path([@movie, @vote], params.merge(vote: -1)), action: :update, method: :patch, role: "button" %>

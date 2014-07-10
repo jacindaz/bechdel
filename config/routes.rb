@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: 'movies#index'
 
   resources :movies, only: [:index, :show, :new, :create] do
-    resources :votes, only: [:new, :create]
+    resources :votes, only: [:create, :update]
     resources :comments, only: [:new, :create]
   end
 
