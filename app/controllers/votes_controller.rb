@@ -11,6 +11,12 @@ class VotesController < ApplicationController
     @vote.movie = @movie
 
     if @vote.save
+      if params[:vote] == "1"
+        @movie.up_votes += 1
+      elsif params[:vote] == "-1"
+        @movie.down_votes += 1
+      end
+      @movie.save
       flash[:notice] = "Thanks for voting!"
       redirect_to movie_path(@movie)
     else
@@ -26,6 +32,12 @@ class VotesController < ApplicationController
 
     if @vote.present?
       @vote.vote = params[:vote].to_i
+      if params[:vote] == "1"
+        @movie.up_votes += 1
+      elsif params[:vote] == "-1"
+        @movie.down_votes += 1
+      end
+      @movie.save
       @vote.save
       flash[:notice] = "Vote updated!"
     else

@@ -20,5 +20,9 @@
   <h5><i>Please sign in to vote.</i></h5>
 <% end %>
 
-
-<%= bar_chart({ Pass: 2, Not: 4}) %>
+<% if @movie.up_votes == 0 && @movie.down_votes == 0 %>
+  <br>
+  <p>No one has voted yet, please vote!</p>
+<% else %>
+  <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
+<% end %>
