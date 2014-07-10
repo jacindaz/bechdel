@@ -6,14 +6,21 @@
     <p class="navigation-menu-button" id="js-mobile-menu">MENU</p>
     <div class="nav">
       <ul id="navigation-menu">
-        <li class="nav-link"><a href="javascript:void(0)">Products</a></li>
-        <li class="nav-link"><a href="javascript:void(0)">About Us</a></li>
-        <li class="nav-link"><a href="javascript:void(0)">Contact</a></li>
-        <li class="nav-link more"><a href="javascript:void(0)">More</a>
-          <ul class="submenu">
-            <li><a href="javascript:void(0)">Submenu Item</a></li>
-            <li><a href="javascript:void(0)">Another Item</a></li>
-          </ul>
+        <li class="nav-link">
+          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
+        </li>
+        <li class="nav-link">
+          <%= link_to "Submit a New Movie", new_movie_path, onclick: "javascript:void(0)" %>
+        </li>
+        <li class="nav-link">
+          <%= link_to "Bechdel Test", bechdel_index_path, onclick: "javascript:void(0)" %>
+        </li>
+        <li class="nav-link more">
+          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
+            <ul class="submenu">
+              <li><a href="javascript:void(0)">Genre 1</a></li>
+              <li><a href="javascript:void(0)">Genre 2</a></li>
+            </ul>
         </li>
 
       </ul>
@@ -27,7 +34,12 @@
           </button>
         </div>
       </div>
-      <a href="javascript:void(0)" class="sign-up">Sign Up</a>
+      <% if user_signed_in? %>
+        <%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: "sign-up" %>
+      <% elsif current_user.nil? %>
+        <%= link_to 'Register', new_user_registration_path, class: "sign-up" %>
+        <%= link_to 'Login', new_user_session_path, class: "sign-up" %>
+      <% end %>
     </div>
   </div>
 </header>

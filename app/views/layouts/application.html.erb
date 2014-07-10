@@ -11,14 +11,7 @@
 <h3><%= notice %></h3>
 
 <%= render partial: "refills/navigation" %>
-
-<% if user_signed_in? %>
-  <p>Hello <%= current_user.username %>, you are signed in.</p>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-<% elsif current_user.nil? %>
-  <%= link_to('Register', new_user_registration_path)  %>
-  <%= link_to('Login', new_user_session_path)  %>
-<% end %>
+<br>
 
 <%= yield %>
 
