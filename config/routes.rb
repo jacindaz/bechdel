@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
   root to: 'movies#index'
 
@@ -6,4 +7,5 @@ Rails.application.routes.draw do
     resources :votes, only: [:new, :create]
     resources :comments, only: [:new, :create]
   end
+
 end
