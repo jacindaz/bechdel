@@ -27,6 +27,7 @@ gem 'spring',        group: :development
 
 gem 'simple_form'
 gem 'devise'
+gem "chartkick"
 
 group :development, :test do
   gem 'rspec-rails'
