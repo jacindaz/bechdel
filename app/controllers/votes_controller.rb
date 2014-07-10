@@ -5,14 +5,13 @@ class VotesController < ApplicationController
   end
 
   def create
-
     @vote = Vote.new(vote_params)
     @movie = Movie.find(params[:movie_id])
     @vote.user = current_user
     @vote.movie = @movie
 
     if @vote.save
-      flash[:notice] = "Vote saved."
+      flash[:notice] = "Thanks for voting!"
       redirect_to movie_path(@movie)
     else
       flash.now[:notice] = "Unable to save vote."
@@ -21,21 +20,17 @@ class VotesController < ApplicationController
   end
 
   def update
-
     @movie = Movie.find(params[:movie_id])
     @user = current_user
     @vote = Vote.find_by_user_id_and_movie_id(@user, @movie)
 
-    if @vote.nil?
-      @new_vote = Vote.new
-      @new_vote.vote = params[:vote]
-      @new_vote.movie = @movie
-      @new_vote.user = @user
-      @new_vote.save
-      flash[:notice] = "You've voted!"
-    else
-      @vote.vote = params[:vote]
+    if @vote.exists?
+      @vote.vote = params[:vote].to_i
+      binding.pry
+      @vote.update(vote_params)
       flash[:notice] = "Vote updated!"
+    else
+      flash.now[:notice] = "Sorry, unable to update vote."
     end
     redirect_to movie_path(@movie)
   end
