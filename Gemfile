@@ -36,3 +36,9 @@ group :development, :test do
   gem 'pry-rails'
   gem 'annotate', ">=2.6.0"
 end
+
+#CSS Frameworks
+gem 'bourbon'
+gem 'neat'
+gem 'refills'
+gem 'bitters'

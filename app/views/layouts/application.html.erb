@@ -2,13 +2,15 @@
 <html>
 <head>
   <title>BechdelTest</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
 <h3><%= notice %></h3>
+
+<%= render partial: "refills/navigation" %>
 
 <% if user_signed_in? %>
   <p>Hello <%= current_user.username %>, you are signed in.</p>
