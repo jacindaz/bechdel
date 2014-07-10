@@ -15,6 +15,10 @@ class Movie < ActiveRecord::Base
   # validate :movie_url, presence: true
   validate :user_id, presence: true
 
+  def user_already_voted?(user_id, movie_id)
+    return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?
+  end
+
 COUNTRIES = [
   "Afghanistan",
   "Aland Islands",

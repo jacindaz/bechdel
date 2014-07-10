@@ -12,11 +12,13 @@
 <p><%= @movie.summary %></p>
 
 <br>
-<% if user_signed_in? %>
+<% if user_signed_in? && !@user_voted %>
   <h4>Does this movie pass the Bechdel Test?</h4>
   <%= button_to "Pass", movie_vote_path([@movie, @vote], params.merge(vote: 1)), action: :update, method: :patch %>
   <%= button_to "Not Pass", movie_vote_path([@movie, @vote], params.merge(vote: -1)), action: :update, method: :patch %>
-<% else %>
+<% elsif @user_voted %>
+  <h5><i>Thanks for already voting on this movie!</i></h5>
+<% elsif !user_signed_in? %>
   <h5><i>Please sign in to vote.</i></h5>
 <% end %>
 

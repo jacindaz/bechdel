@@ -8,6 +8,7 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    @user_voted = @movie.user_already_voted?(current_user, @movie.id)
   end
 
   def new
