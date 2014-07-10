@@ -24,10 +24,9 @@ class VotesController < ApplicationController
     @user = current_user
     @vote = Vote.find_by_user_id_and_movie_id(@user, @movie)
 
-    if @vote.exists?
+    if @vote.present?
       @vote.vote = params[:vote].to_i
-      binding.pry
-      @vote.update(vote_params)
+      @vote.save
       flash[:notice] = "Vote updated!"
     else
       flash.now[:notice] = "Sorry, unable to update vote."

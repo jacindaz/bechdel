@@ -15,10 +15,6 @@ class Movie < ActiveRecord::Base
   # validate :movie_url, presence: true
   validate :user_id, presence: true
 
-  def has_voted?
-
-  end
-
 COUNTRIES = [
   "Afghanistan",
   "Aland Islands",
