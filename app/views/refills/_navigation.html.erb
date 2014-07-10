@@ -28,10 +28,12 @@
     <div class="navigation-tools">
       <div class="search-bar">
         <div class="search-and-submit">
-          <input type="search" placeholder="Enter Search" />
-          <button type="submit">
-            <img src="https://raw.githubusercontent.com/Magnus-G/Random/master/search-icon.png" alt="">
-          </button>
+          <%= form_tag(movies_path, method: "get", type: "search") do %>
+            <%= text_field_tag :search, params[:search], placeholder: "Search Movies" %>
+            <button type="submit">
+              <img src="https://raw.githubusercontent.com/Magnus-G/Random/master/search-icon.png" alt="Search Icon">
+            </button>
+          <% end %>
         </div>
       </div>
       <% if user_signed_in? %>

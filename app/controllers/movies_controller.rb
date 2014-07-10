@@ -3,7 +3,11 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @movies = Movie.all
+    if params[:search]
+      @movies = Movie.search(params[:search]).order("title ASC")
+    else
+      @movies = Movie.all.order("title ASC")
+    end
   end
 
   def show

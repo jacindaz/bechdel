@@ -28,6 +28,10 @@ class Movie < ActiveRecord::Base
     self.save
   end
 
+  def self.search(query)
+    where('title ILIKE ?', "%#{query}%")
+  end
+
 COUNTRIES = [
   "Afghanistan",
   "Aland Islands",
