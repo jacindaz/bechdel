@@ -19,6 +19,15 @@ class Movie < ActiveRecord::Base
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?
   end
 
+  def update_votes(pass_or_not)
+    if pass_or_not == "pass"
+      self.up_votes += 1
+    elsif pass_or_not == "not"
+      self.down_votes += 1
+    end
+    self.save
+  end
+
 COUNTRIES = [
   "Afghanistan",
   "Aland Islands",
