@@ -8,13 +8,12 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all.order("title ASC")
     end
-    @num_movies = 10
+    @num_movies = 12
     @box_office_movies = Movie.movie_info(@num_movies)
   end
 
   def show
     @movie = Movie.find(params[:id])
-
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
   end
 

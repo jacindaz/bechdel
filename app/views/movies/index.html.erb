@@ -1,34 +1,27 @@
-<h1>All Movies</h1>
-
-<ul>
-  <% @movies.each do |movie| %>
-    <li><%= link_to movie.title, movie_path(movie) %></li>
-  <% end %>
-</ul>
-
 <h1>Top <%= @num_movies %> Box Office Movies</h1>
+<br>
 
 <div class="cards">
 <% @box_office_movies.each do |movie| %>
 
-  <div class="card">
+  <div class="card" style="height: 240px;">
     <div class="card-image">
 
     </div>
     <div class="card-header">
-      <%= movie[:title] %>
+      <%= movie[:title] %><br>
+      <%= movie[:year] %>
     </div>
     <div class="card-copy">
       <p>
         <span style="float:left; padding-right:15px;">
           <%= image_tag "#{movie[:thumbnail_url]}", alt: "Movie poster image" %>
         </span>
-        <%= movie[:summary] %>
+        <%= truncate movie[:summary], length: 140, separator: ' ' %>
       </p>
     </div>
-    <div class="card-stats">
+    <div class="card-stats" style="position: absolute; bottom:0;">
       <ul>
-        <li><%= movie[:year] %></li>
         <li><%= movie[:language] %></li>
         <li><%= movie[:country_produced] %></li>
       </ul>
