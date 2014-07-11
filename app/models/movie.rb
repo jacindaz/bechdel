@@ -35,13 +35,25 @@ class Movie < ActiveRecord::Base
 
   # TOP_10_BOX_OFFICE2 =
   # HTTParty.get("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{ROTTEN_TOMATOES_KEY}&limit=10")
-  def box_office(num_movies)
+  def self.box_office(num_movies)
     key = ENV["ROTTEN_TOMATOES_KEY"]
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
   end
 
-  def movie_info(num_movies)
-
+  def self.movie_info(num_movies)
+    movies_hash = self.box_office(num_movies)
+    movie_info = []
+    movies_hash["movies"].each do |rt_movie|
+      new_movie = {}
+      new_movie[:title] = rt_movie["title"]
+      new_movie[:year] = rt_movie["year"]
+      new_movie[:summary] = rt_movie["synopsis"]
+      new_movie[:language] = "English"
+      new_movie[:country_produced] = "United States"
+      new_movie[:thumbnail_url] = rt_movie["posters"]["thumbnail"]
+      movie_info << new_movie
+    end
+    movie_info
   end
 
 COUNTRIES = [
