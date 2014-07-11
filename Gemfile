@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.1.1'
 
 group :development, :test do
   gem 'dotenv-rails'
@@ -32,6 +33,8 @@ gem 'spring',        group: :development
 gem 'simple_form'
 gem 'devise'
 gem "chartkick"
+
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'rspec-rails'
