@@ -49,4 +49,4 @@ gem 'neat'
 gem 'refills'
 gem 'bitters'
 
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.6.2.1'
