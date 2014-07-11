@@ -55,10 +55,8 @@
       <div class="comment-content">
         <h1><%= comment.user.username %></h1>
         <p><%= comment.body %></p>
-        <p class="comment-detail">Created at </p>
+        <p class="comment-detail">Created on <%= comment.created_at.strftime("%B %d, %Y") %></p>
       </div>
     </div>
   <% end %>
 <% end %>
-
-
