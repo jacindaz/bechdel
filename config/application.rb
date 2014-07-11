@@ -8,7 +8,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
 require 'rails/all'
-require 'dotenv' ; Dotenv.load ".env.local", ".env.#{Rails.env}"
+#require 'dotenv' ; Dotenv.load ".env.local", ".env.#{Rails.env}"
 require 'open-uri'
 require 'json'
 require 'nokogiri'
