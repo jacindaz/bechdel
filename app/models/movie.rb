@@ -33,8 +33,6 @@ class Movie < ActiveRecord::Base
     where('title ILIKE ?', "%#{query}%")
   end
 
-  # TOP_10_BOX_OFFICE2 =
-  # HTTParty.get("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{ROTTEN_TOMATOES_KEY}&limit=10")
   def self.box_office(num_movies)
     key = ENV["ROTTEN_TOMATOES_KEY"]
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
@@ -53,7 +51,26 @@ class Movie < ActiveRecord::Base
       new_movie[:thumbnail_url] = rt_movie["posters"]["thumbnail"]
       movie_info << new_movie
     end
+    Movie.update_database(movie_info)
     movie_info
+  end
+
+  def self.update_database(array_of_hashes)
+    array_of_hashes.each do |hash|
+      if !Movie.movie_exists?(hash)
+        Movie.create(title: hash[:title], year: hash[:year], summary: hash[:summary],
+                    language: hash[:language], country_produced: hash[:country_produced],
+                    user_id: 2)
+      end
+    end
+  end
+
+  def self.movie_exists?(movie)
+    if !Movie.find_by_title(movie[:title]).nil?
+      return true
+    else
+      return false
+    end
   end
 
 COUNTRIES = [
