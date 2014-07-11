@@ -7,6 +7,12 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require 'rails/all'
+require 'dotenv' ; Dotenv.load ".env.local", ".env.#{Rails.env}"
+require 'open-uri'
+require 'json'
+require 'nokogiri'
+
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems

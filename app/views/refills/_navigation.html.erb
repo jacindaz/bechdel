@@ -30,9 +30,7 @@
         <div class="search-and-submit">
           <%= form_tag(movies_path, method: "get", type: "search") do %>
             <%= text_field_tag :search, params[:search], placeholder: "Search Movies" %>
-            <button type="submit">
-              <img src="https://raw.githubusercontent.com/Magnus-G/Random/master/search-icon.png" alt="Search Icon">
-            </button>
+            <%= image_submit_tag "smiley-face.png", alt: "Search Happy", class: "search-button" %>
           <% end %>
         </div>
       </div>

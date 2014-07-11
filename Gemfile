@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+group :development, :test do
+  gem 'dotenv-rails'
+end
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 # Use postgresql as the database for Active Record
@@ -34,7 +38,6 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'pry-rails'
-  gem 'annotate', ">=2.6.0"
 end
 
 #CSS Frameworks
@@ -42,3 +45,5 @@ gem 'bourbon'
 gem 'neat'
 gem 'refills'
 gem 'bitters'
+
+

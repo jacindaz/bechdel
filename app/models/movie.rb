@@ -1,4 +1,5 @@
 class Movie < ActiveRecord::Base
+
   has_many :actresses
   has_many :actresses, through: :actresses_movies
   has_many :votes
@@ -30,6 +31,17 @@ class Movie < ActiveRecord::Base
 
   def self.search(query)
     where('title ILIKE ?', "%#{query}%")
+  end
+
+  # TOP_10_BOX_OFFICE2 =
+  # HTTParty.get("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{ROTTEN_TOMATOES_KEY}&limit=10")
+  def box_office(num_movies)
+    key = ENV["ROTTEN_TOMATOES_KEY"]
+    top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
+  end
+
+  def movie_info(num_movies)
+
   end
 
 COUNTRIES = [
