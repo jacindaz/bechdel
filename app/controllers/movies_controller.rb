@@ -9,7 +9,8 @@ class MoviesController < ApplicationController
       @movies = Movie.all.order("title ASC")
     end
     @num_movies = 12
-    @box_office_movies = Movie.movie_info(@num_movies)
+    Movie.movie_info(@num_movies)
+    @movies = Movie.all
   end
 
   def show

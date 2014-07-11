@@ -60,7 +60,7 @@ class Movie < ActiveRecord::Base
       if !Movie.movie_exists?(hash)
         Movie.create(title: hash[:title], year: hash[:year], summary: hash[:summary],
                     language: hash[:language], country_produced: hash[:country_produced],
-                    user_id: 2)
+                    user_id: 2, thumbnail_url: hash[:thumbnail_url])
       end
     end
   end
