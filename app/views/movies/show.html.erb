@@ -1,4 +1,7 @@
-<h1>Info about <%= @movie.title %></h1>
+<h1>
+  <%= image_tag "#{@movie_poster}", alt: "Movie poster image", class: "movie-poster-image" %>
+  Info about <%= @movie.title %>
+</h1>
 <br>
 
 <ul>
@@ -28,3 +31,34 @@
 <% else %>
   <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
 <% end %>
+
+<br>
+<h4>Comments</h4>
+
+<%= simple_form_for([@movie, @comment]) do |f| %>
+
+  <%= f.input :body %>
+  <%= f.button :submit, "Submit" %>
+
+<% end %>
+
+<% if !@comments.nil? %>
+  <hr>
+  <% @comments.each do |comment| %>
+    <p></p>
+    <div class="comment">
+      <div class="comment-image">
+        <% if !comment.user.avatar_url.nil? %>
+          <%= image_tag comment.user.avatar_url %>
+        <% end %>
+      </div>
+      <div class="comment-content">
+        <h1><%= comment.user.username %></h1>
+        <p><%= comment.body %></p>
+        <p class="comment-detail">Created at </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
