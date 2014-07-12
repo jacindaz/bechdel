@@ -17,9 +17,16 @@ class Movie < ActiveRecord::Base
   validate :user_id, presence: true
   validate :thumbnail_url, presence: true
 
-  def website_scraping(url)
+  def self.website_scraping(url)
     page = Nokogiri::HTML(open("#{url}"))
-
+    num_tests_pass = page.css('p')[0].children[0].text
+    explanation = page.css('h2')[0].children[0].attributes["title"].value
+    explanation[0] = ""
+    explanation[-1] = ""
+    title = page.css('title').children.text
+    movie_title = title.split(" -")[0]
+    bechdel_website = { num_tests_pass: num_tests_pass,
+                        explanation: explanation, movie_title: movie_title }
   end
 
   def user_already_voted?(user_id, movie_id)

@@ -45,6 +45,16 @@
 <% end %>
 
 <hr>
+
+<% if @movie.title == "Tammy" %>
+<h3>According to BechdelTest.com</h3>
+<ul>
+  <li><%= @bechdel_website[:num_tests_pass] %></li>
+  <li><%= @bechdel_website[:explanation] %></li>
+</ul>
+<% end %>
+
+<hr>
 <h4>Leave a Comment</h4>
 
 <%= simple_form_for([@movie, @comment]) do |f| %>
