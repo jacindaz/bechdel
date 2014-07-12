@@ -33,7 +33,16 @@ class Movie < ActiveRecord::Base
   def self.bechdel_website_movies
     movie_titles = []
     page.xpath('//a[contains(@id, "movie")]').each do |movie|
-      movie_titles << movie.text
+      movie = {}
+      movie[:movie_title] = movie.text
+      movie_titles << movie
+    end
+  end
+
+  def self.bechdel_website_movies_url
+    movie_info = Movie.bechdel_website_movies
+    page.xpath('find movie url').each do |movie_url|
+
     end
   end
 
