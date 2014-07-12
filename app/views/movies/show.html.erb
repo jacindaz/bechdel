@@ -14,16 +14,28 @@
 <h4>Summary</h4>
 <p><%= @movie.summary %></p>
 
-<br>
-<% if user_signed_in? && !@user_voted %>
-  <h4>Does this movie pass the Bechdel Test?</h4>
-  <%= button_to "Pass", movie_votes_path(@movie, params.merge(vote: {vote: 1})), action: :create, method: :post %>
-  <%= button_to "Not Pass", movie_votes_path(@movie, params.merge(vote: {vote: -1})), action: :create, method: :post %>
-<% elsif @user_voted %>
-  <h5><i>Thanks for already voting on this movie!</i></h5>
-<% elsif !user_signed_in? %>
-  <h5><i>Please sign in to vote.</i></h5>
-<% end %>
+<hr>
+<div class="container">
+  <div class="element">
+    <h5>Does it Pass?</h5><br>
+    <% if user_signed_in? && !@user_voted %>
+      <%= button_to "Pass", movie_votes_path(@movie, params.merge(vote: {vote: 1})), action: :create, method: :post %>
+      <%= button_to "Not Pass", movie_votes_path(@movie, params.merge(vote: {vote: -1})), action: :create, method: :post %>
+    <% elsif @user_voted %>
+      <h5><i>Thanks for already voting on this movie!</i></h5>
+    <% elsif !user_signed_in? %>
+      <h5><i>Please sign in to vote.</i></h5>
+    <% end %>
+  </div>
+  <div class="element">
+    <h5>What's the Bechdel Test Again?</h5>
+    <ol>
+      <li>The movie has at least 2 named women</li>
+      <li>Who talk to each other</li>
+      <li>About something besides a man</li>
+    </ol>
+  </div>
+</div>
 
 <% if @movie.up_votes == 0 && @movie.down_votes == 0 %>
   <br>
@@ -32,7 +44,7 @@
   <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
 <% end %>
 
-<br>
+<hr>
 <h4>Comments</h4>
 
 <%= simple_form_for([@movie, @comment]) do |f| %>

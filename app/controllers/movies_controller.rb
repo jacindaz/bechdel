@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
     @movie_poster["tmb"] = "org"
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
-    @comments = Comment.all
+    @comments = Comment.find_by_movie_id(@movie)
   end
 
   def new
