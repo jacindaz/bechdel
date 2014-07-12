@@ -15,11 +15,12 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
-    @movie_poster = @movie.thumbnail_url
-    @movie_poster["tmb"] = "org"
+    if @movie.thumbnail_url.starts_with?("http")
+      @movie_poster = @movie.thumbnail_url
+      @movie_poster["tmb"] = "org"
+    end
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
-    @comments = Comment.find_by_movie_id(@movie)
   end
 
   def new

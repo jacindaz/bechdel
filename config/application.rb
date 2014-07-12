@@ -9,9 +9,10 @@ require "action_view/railtie"
 require "sprockets/railtie"
 require 'rails/all'
 #require 'dotenv' ; Dotenv.load ".env.local", ".env.#{Rails.env}"
+require 'rubygems'
 require 'open-uri'
 require 'json'
-#require 'nokogiri'
+require 'nokogiri'
 
 # require "rails/test_unit/railtie"
 

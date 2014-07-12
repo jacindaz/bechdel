@@ -54,9 +54,9 @@
 
 <% end %>
 
-<% if !@comments.nil? %>
+<% if !@movie.comments.nil? %>
   <hr>
-  <% @comments.each do |comment| %>
+  <% @movie.comments.each do |comment| %>
     <p></p>
     <div class="comment">
       <div class="comment-image">

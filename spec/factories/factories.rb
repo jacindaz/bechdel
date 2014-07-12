@@ -5,6 +5,11 @@ FactoryGirl.define do
     @ratings_array[n]
   end
 
+  sequence(:random_movie_year) do |n|
+    @ratings_array = (1..100).to_a.shuffle
+    @ratings_array[n]
+  end
+
   sequence(:random_id) do |n|
     @ratings_array = (1..50).to_a.shuffle
     @ratings_array[n]
@@ -20,8 +25,7 @@ FactoryGirl.define do
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
     language "English"
     country_produced "United States"
-    thumbnail_url "http://www.google.com"
-    user_id { generate(:random_id) }
+    user
   end
 
   factory :actress do

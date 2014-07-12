@@ -9,11 +9,18 @@ feature 'user writes a comment on a particular movie' do
       sign_in(user)
     end
 
-  scenario 'user writes a comment on a movie' do
-    movie =
-  end
+    scenario 'user writes a comment on a movie' do
+      comment = FactoryGirl.create(:comment)
+      visit movie_path(comment.movie)
 
-  scenario 'user submits an empty comment' do
-  end
+      fill_in "comment[:body]", with: comment.body
+      click_on "Submit"
+      expect(page).to have_content "Comment saved."
+      expect(page).to have_content comment.body
+    end
 
+    scenario 'user submits an empty comment' do
+    end
+
+  end
 end

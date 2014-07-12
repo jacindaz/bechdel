@@ -4,7 +4,7 @@ class Movie < ActiveRecord::Base
   belongs_to :user
 
   validate :title, presence: true, uniqueness: { scope: :year }
-  validate :year, presence: true
+  validate :year, presence: true, inclusion: { in: [1900..2014] }
   validate :summary, presence: true, length: {
       minimum: 5,
       maximum: 200,
@@ -15,8 +15,12 @@ class Movie < ActiveRecord::Base
   validate :language, presence: true
   validate :country_produced, presence: true
   validate :user_id, presence: true
-  #validates :thumbnail_url, inclusion: { in: %w("www") }
-  validates_format_of :thumbnail_url, with: URI::regexp(%w(http https))
+  validate :thumbnail_url, presence: true
+
+  def website_scraping(url)
+    page = Nokogiri::HTML(open("#{url}"))
+
+  end
 
   def user_already_voted?(user_id, movie_id)
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?

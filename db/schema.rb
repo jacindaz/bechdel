@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140711154253) do
+ActiveRecord::Schema.define(version: 20140712183131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,18 +41,18 @@ ActiveRecord::Schema.define(version: 20140711154253) do
   end
 
   create_table "movies", force: true do |t|
-    t.string   "title",                                  null: false
-    t.integer  "year",                                   null: false
-    t.text     "summary",                                null: false
-    t.string   "language",                               null: false
-    t.string   "country_produced",                       null: false
-    t.string   "bechdel_rating",   default: "no rating", null: false
-    t.integer  "user_id",                                null: false
+    t.string   "title",                                      null: false
+    t.integer  "year",                                       null: false
+    t.text     "summary",                                    null: false
+    t.string   "language",                                   null: false
+    t.string   "country_produced",                           null: false
+    t.string   "bechdel_rating",   default: "no rating",     null: false
+    t.integer  "user_id",                                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "up_votes",         default: 0,           null: false
-    t.integer  "down_votes",       default: 0,           null: false
-    t.string   "thumbnail_url"
+    t.integer  "up_votes",         default: 0,               null: false
+    t.integer  "down_votes",       default: 0,               null: false
+    t.string   "thumbnail_url",    default: "no-image.jpeg"
   end
 
   add_index "movies", ["title"], name: "index_movies_on_title", unique: true, using: :btree

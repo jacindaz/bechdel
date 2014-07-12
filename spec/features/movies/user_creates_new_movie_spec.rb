@@ -18,7 +18,6 @@ feature 'user creates a new movie' do
       fill_in "Summary", with: movie.summary
       select movie.language, from: "Language"
       select movie.country_produced, from: "Country"
-      binding.pry
       click_on "Submit New Movie"
 
       expect(page).to have_content "Movie saved."
