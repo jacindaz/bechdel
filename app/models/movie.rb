@@ -29,6 +29,14 @@ class Movie < ActiveRecord::Base
                         explanation: explanation, movie_title: movie_title }
   end
 
+  #scrapes homepage of bechdeltest.com website, and creates array of movie titles
+  def self.bechdel_website_movies
+    movie_titles = []
+    page.xpath('//a[contains(@id, "movie")]').each do |movie|
+      movie_titles << movie.text
+    end
+  end
+
   def user_already_voted?(user_id, movie_id)
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?
   end
