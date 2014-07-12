@@ -1,16 +1,13 @@
 <header class="navigation">
   <div class="menu-wrapper">
-    <a href="javascript:void(0)" class="logo">
-      <img src="https://raw.github.com/Magnus-G/Random/master/placeholder_logo_1.png" alt="">
-    </a>
     <p class="navigation-menu-button" id="js-mobile-menu">MENU</p>
     <div class="nav">
-      <ul id="navigation-menu">
+      <ul id="navigation-menu" style="margin-left: 20px;">
         <li class="nav-link">
           <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
         </li>
         <li class="nav-link">
-          <%= link_to "Submit a New Movie", new_movie_path, onclick: "javascript:void(0)" %>
+          <%= link_to "Add a Movie", new_movie_path, onclick: "javascript:void(0)" %>
         </li>
         <li class="nav-link">
           <%= link_to "Bechdel Test", bechdel_index_path, onclick: "javascript:void(0)" %>

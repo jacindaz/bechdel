@@ -45,11 +45,11 @@
 <% end %>
 
 <hr>
-<h4>Comments</h4>
+<h4>Leave a Comment</h4>
 
 <%= simple_form_for([@movie, @comment]) do |f| %>
 
-  <%= f.input :body %>
+  <%= f.input_field :body %>
   <%= f.button :submit, "Submit" %>
 
 <% end %>

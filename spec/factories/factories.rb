@@ -16,14 +16,11 @@ FactoryGirl.define do
 
   factory :movie do
     sequence(:title) {|n| "movie title #{n}"}
-    sequence(:year) {|n| n + 1}
+    sequence(:year) {|n| n + 1950}
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
-    sequence(:language) {|n| "movie language #{n}"}
-    country_produced "USA"
-    bechdel_rating "passed"
-    # poster_url "http://www.google.com"
-    # rotten_tomatoes_rating { generate(:random_movie_rating) }
-    # movie_url "http://www.imgur.com/"
+    language "English"
+    country_produced "United States"
+    thumbnail_url "http://www.google.com"
     user_id { generate(:random_id) }
   end
 

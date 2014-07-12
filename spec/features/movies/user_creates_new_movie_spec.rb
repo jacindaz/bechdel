@@ -6,18 +6,19 @@ feature 'user creates a new movie' do
     let(:user) { FactoryGirl.create(:user) }
 
     before :each do
-      sign_in_as(user)
+      sign_in(user)
     end
 
     scenario 'user creates a new movie using a form' do
       movie = FactoryGirl.create(:movie)
       visit new_movie_path
 
-      fill_in "title", with: movie.title
+      fill_in "Title", with: movie.title
       select movie.year, from: "Year"
       fill_in "Summary", with: movie.summary
       select movie.language, from: "Language"
       select movie.country_produced, from: "Country"
+      binding.pry
       click_on "Submit New Movie"
 
       expect(page).to have_content "Movie saved."
@@ -29,7 +30,6 @@ feature 'user creates a new movie' do
     scenario 'user enters a blank movie' do
       visit new_movie_path
       click_on "Submit New Movie"
-
       expect(page).to have_content "Movie not saved."
     end
 
