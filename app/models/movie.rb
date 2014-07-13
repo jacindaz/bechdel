@@ -22,7 +22,7 @@ class Movie < ActiveRecord::Base
   #scrapes movie show page, for description if passed or not
   def self.one_movie_bechdel_website(movie_url)
     encode_url = URI::encode("#{movie_url}")
-    page = Nokogiri::HTML(open("#{movie_url}"))
+    page = Nokogiri::HTML(open("#{encode_url}"))
     num_tests_pass = page.css('p')[0].children[0].text
     explanation = page.css('h2')[0].children[0].attributes["title"].value
     explanation[0] = ""
@@ -76,7 +76,7 @@ class Movie < ActiveRecord::Base
     links.each do |link|
       if !(link.attributes["href"]).nil? && (link.attributes["href"].value.start_with?("/view"))
         partial_link = link.attributes["href"].value
-        full_link = "bechdeltest.com#{partial_link}"
+        full_link = "http://bechdeltest.com#{partial_link}"
         movie_links << full_link
       end
     end
