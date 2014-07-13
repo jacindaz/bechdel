@@ -17,10 +17,16 @@ class Movie < ActiveRecord::Base
   validate :user_id, presence: true
   validate :thumbnail_url, presence: true
 
+  BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(open("http://bechdeltest.com/"))
+  end
+
   #scrapes movie show page, for description if passed or not
   def self.one_movie_bechdel_website(url)
-    page = Nokogiri::HTML(open("#{url}"))
+    page = BECHDEL_WEBSITE_HOMEPAGE
     num_tests_pass = page.css('p')[0].children[0].text
+    explanation = page.css('h2')[0].children[0].attributes["title"].value
+    explanation[0] = ""
+    explanation[-1] = ""
     title = page.css('title').children.text
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
@@ -28,15 +34,23 @@ class Movie < ActiveRecord::Base
   end
 
   def self.all_movies_bechdel_website(url)
-    all_movies_bechdel_info = []
-    Movie.bechdel_website_titles.each do |movie|
-      one_movie_hash = Movie.one_movie_bechdel_website(url)
+    all_bechdel_info = []
+    all_titles = Movie.bechdel_website_titles
+    all_urls = Movie.bechdel_website_movie_urls
+    bechdel_info = Movie.one_movie_bechdel_website
+    bechdel_info.each do |key, value|
+      movie = {}
+      all_titles.each do |title|
+        if value == title
+          movie[:url] =
+      all_bechdel_info << movie
     end
+    all_bechdel_info
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
-  def self.bechdel_website_titles(url)
-    page = Nokogiri::HTML(open("#{url}"))
+  def self.bechdel_website_titles
+    page = BECHDEL_WEBSITE_HOMEPAGE
     movie_titles = []
     page.xpath('//a[contains(@id, "movie")]').each do |movie|
       movie_titles << movie.text
@@ -44,8 +58,8 @@ class Movie < ActiveRecord::Base
   end
 
   #scrapes homepage, grabs links of movie show page
-  def self.bechdel_website_movies_urls(url)
-    page = Nokogiri::HTML(open("#{url}"))
+  def self.bechdel_website_movie_urls
+    page = BECHDEL_WEBSITE_HOMEPAGE
     links = page.css("a")
     movie_links = []
     links.each do |link|
@@ -58,6 +72,11 @@ class Movie < ActiveRecord::Base
       array_of_links.pop
     end
     array_of_links
+  end
+
+  def self.bechdel_titles_urls
+    page = BECHDEL_WEBSITE_HOMEPAGE
+
   end
 
   def user_already_voted?(user_id, movie_id)
