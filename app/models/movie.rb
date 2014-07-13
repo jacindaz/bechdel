@@ -18,20 +18,25 @@ class Movie < ActiveRecord::Base
   validate :thumbnail_url, presence: true
 
   #scrapes movie show page, for description if passed or not
-  def self.website_scraping(url)
+  def self.one_movie_bechdel_website(url)
     page = Nokogiri::HTML(open("#{url}"))
     num_tests_pass = page.css('p')[0].children[0].text
-    explanation = page.css('h2')[0].children[0].attributes["title"].value
-    explanation[0] = ""
-    explanation[-1] = ""
     title = page.css('title').children.text
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
                         explanation: explanation, movie_title: movie_title }
   end
 
+  def self.all_movies_bechdel_website(url)
+    all_movies_bechdel_info = []
+    Movie.bechdel_website_titles.each do |movie|
+      one_movie_hash = Movie.one_movie_bechdel_website(url)
+    end
+  end
+
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
-  def self.bechdel_website_movies
+  def self.bechdel_website_titles(url)
+    page = Nokogiri::HTML(open("#{url}"))
     movie_titles = []
     page.xpath('//a[contains(@id, "movie")]').each do |movie|
       movie_titles << movie.text
@@ -39,15 +44,20 @@ class Movie < ActiveRecord::Base
   end
 
   #scrapes homepage, grabs links of movie show page
-  def self.bechdel_website_movies_urls
+  def self.bechdel_website_movies_urls(url)
+    page = Nokogiri::HTML(open("#{url}"))
     links = page.css("a")
     movie_links = []
     links.each do |link|
       if !(link.attributes["href"]).nil? && (link.attributes["href"].value.start_with?("/view"))
         movie_links << link.attributes["href"].value
       end
-      array_of_links.uniq!
     end
+    array_of_links.uniq!
+    8.times do
+      array_of_links.pop
+    end
+    array_of_links
   end
 
   def user_already_voted?(user_id, movie_id)
