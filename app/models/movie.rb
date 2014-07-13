@@ -21,7 +21,7 @@ class Movie < ActiveRecord::Base
   end
 
   #scrapes movie show page, for description if passed or not
-  def self.one_movie_bechdel_website(url)
+  def self.one_movie_bechdel_website
     page = BECHDEL_WEBSITE_HOMEPAGE
     num_tests_pass = page.css('p')[0].children[0].text
     explanation = page.css('h2')[0].children[0].attributes["title"].value
@@ -33,16 +33,15 @@ class Movie < ActiveRecord::Base
                         explanation: explanation, movie_title: movie_title }
   end
 
-  def self.all_movies_bechdel_website(url)
+  def self.all_movies_bechdel_website
     all_bechdel_info = []
-    all_titles = Movie.bechdel_website_titles
-    all_urls = Movie.bechdel_website_movie_urls
     bechdel_info = Movie.one_movie_bechdel_website
+    movie_urls = Movie.bechdel_titles_urls
     bechdel_info.each do |key, value|
       movie = {}
-      all_titles.each do |title|
-        if value == title
-          movie[:url] =
+      movie_urls.each do |movie_url|
+        if value == movie_url[:title]
+          movie[:url] = movie_url[:url]
       all_bechdel_info << movie
     end
     all_bechdel_info
@@ -76,7 +75,18 @@ class Movie < ActiveRecord::Base
 
   def self.bechdel_titles_urls
     page = BECHDEL_WEBSITE_HOMEPAGE
-
+    all_titles = Movie.bechdel_website_titles
+    all_urls = Movie.bechdel_website_movie_urls
+    titles_urls = []
+    all_urls.each do |url|
+      all_titles.each do |movie|
+        movie_info = {}
+        movie_info[:url] = url
+        movie_info[:title] = movie
+      end
+      titles_urls << movie_info
+    end
+    titles_urls
   end
 
   def user_already_voted?(user_id, movie_id)
