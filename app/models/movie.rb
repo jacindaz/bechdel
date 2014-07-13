@@ -1,7 +1,10 @@
+
+
 class Movie < ActiveRecord::Base
   has_many :votes
   has_many :comments
   belongs_to :user
+  belongs_to :bechdelinfo
 
   validate :title, presence: true, uniqueness: { scope: :year }
   validate :year, presence: true, inclusion: { in: [1900..2014] }
@@ -31,17 +34,6 @@ class Movie < ActiveRecord::Base
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
                         explanation: explanation, movie_title: movie_title }
-  end
-
-  def self.bechdel_movie_info
-    array_of_urls = Movie.bechdel_website_movie_urls
-    movies = []
-    array_of_urls.each do |url|
-      one_movie_hash = Movie.one_movie_bechdel_website(url)
-      one_movie_hash[:url] = url
-      movies << one_movie_hash
-    end
-    movies
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
@@ -86,6 +78,31 @@ class Movie < ActiveRecord::Base
       titles_urls << movie_info
     end
     titles_urls
+  end
+
+  def self.bechdel_movie_info
+    array_of_urls = Movie.bechdel_website_movie_urls
+    movies = []
+    array_of_urls.each do |url|
+      one_movie_hash = Movie.one_movie_bechdel_website(url)
+      one_movie_hash[:url] = url
+      movies << one_movie_hash
+    end
+    movies
+  end
+
+  def self.save_bechdel_to_db
+    bechdel_info = Movie.bechdel_movie_info
+    bechdel_info.each do |movie|
+      movie_in_db = Movie.find_by_title(movie[:movie_title])
+      if !movie_in_db.nil?
+        BechdelInfo.create(movie_id: movie_in_db.id,
+                            bechdel_url: movie[:url],
+                            passing_tests: movie[:num_tests_pass],
+                            tests_explanation: movie[:explanation]
+                            )
+      end
+    end
   end
 
   def user_already_voted?(user_id, movie_id)

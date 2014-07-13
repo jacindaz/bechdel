@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
     end
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
-    @test = Movie.bechdel_movie_info
+    @test = Movie.save_bechdel_to_db
   end
 
   def new
