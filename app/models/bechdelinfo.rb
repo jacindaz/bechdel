@@ -1,6 +1,6 @@
 require 'movie'
 
-class BechdelInfo < ActiveRecord::Bas
+class Bechdelinfo < ActiveRecord::Base
   belongs_to :movie
 
   validate :movie_id, presence: true, numericality: { integer: true }
@@ -53,8 +53,8 @@ class BechdelInfo < ActiveRecord::Bas
 
   def self.bechdel_titles_urls
     page = BECHDEL_WEBSITE_HOMEPAGE
-    all_titles = BechdelInfo.bechdel_website_titles
-    all_urls = BechdelInfo.bechdel_website_movie_urls
+    all_titles = Bechdelinfo.bechdel_website_titles
+    all_urls = Bechdelinfo.bechdel_website_movie_urls
     titles_urls = []
     all_urls.each do |url|
       all_titles.each do |movie|
@@ -68,10 +68,10 @@ class BechdelInfo < ActiveRecord::Bas
   end
 
   def self.bechdel_movie_info
-    array_of_urls = BechdelInfo.bechdel_website_movie_urls
+    array_of_urls = Bechdelinfo.bechdel_website_movie_urls
     movies = []
     array_of_urls.each do |url|
-      one_movie_hash = BechdelInfo.one_movie_bechdel_website(url)
+      one_movie_hash = Bechdelinfo.one_movie_bechdel_website(url)
       one_movie_hash[:url] = url
       movies << one_movie_hash
     end
@@ -79,11 +79,11 @@ class BechdelInfo < ActiveRecord::Bas
   end
 
   def self.save_bechdel_to_db
-    bechdel_info = BechdelInfo.bechdel_movie_info
+    bechdel_info = Bechdelinfo.bechdel_movie_info
     bechdel_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:movie_title])
       if !movie_in_db.nil?
-        BechdelInfo.create(movie_id: movie_in_db.id,
+        Bechdelinfo.create(movie_id: movie_in_db.id,
                             bechdel_url: movie[:url],
                             passing_tests: movie[:num_tests_pass],
                             tests_explanation: movie[:explanation]

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :movies, only: [:index, :show, :new, :create] do
     resources :votes, only: [:create, :update]
     resources :comments, only: [:new, :create]
+    resources :bechdelinfo, only: [:create]
   end
 
   resources :bechdel, only: [:index]
