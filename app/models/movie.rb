@@ -37,26 +37,11 @@ class Movie < ActiveRecord::Base
     array_of_urls = Movie.bechdel_website_movie_urls
     movies = []
     array_of_urls.each do |url|
-      movies << Movie.one_movie_bechdel_website(url)
+      one_movie_hash = Movie.one_movie_bechdel_website(url)
+      one_movie_hash[:url] = url
+      movies << one_movie_hash
     end
     movies
-  end
-
-  def self.all_movies_bechdel_website
-    binding.pry
-    all_bechdel_info = []
-    bechdel_info = bechdel_movie_info
-    movie_urls = Movie.bechdel_titles_urls
-    bechdel_info.each do |key, value|
-      movie = {}
-      movie_urls.each do |movie_url|
-        if value == movie_url[:title]
-          movie[:url] = movie_url[:url]
-        end
-      end
-      all_bechdel_info << movie
-    end
-    all_bechdel_info
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
