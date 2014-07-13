@@ -17,6 +17,7 @@ class Movie < ActiveRecord::Base
   validate :user_id, presence: true
   validate :thumbnail_url, presence: true
 
+  #scrapes movie show page, for description if passed or not
   def self.website_scraping(url)
     page = Nokogiri::HTML(open("#{url}"))
     num_tests_pass = page.css('p')[0].children[0].text
@@ -33,16 +34,19 @@ class Movie < ActiveRecord::Base
   def self.bechdel_website_movies
     movie_titles = []
     page.xpath('//a[contains(@id, "movie")]').each do |movie|
-      movie = {}
-      movie[:movie_title] = movie.text
-      movie_titles << movie
+      movie_titles << movie.text
     end
   end
 
-  def self.bechdel_website_movies_url
-    movie_info = Movie.bechdel_website_movies
-    page.xpath('find movie url').each do |movie_url|
-
+  #scrapes homepage, grabs links of movie show page
+  def self.bechdel_website_movies_urls
+    links = page.css("a")
+    movie_links = []
+    links.each do |link|
+      if !(link.attributes["href"]).nil? && (link.attributes["href"].value.start_with?("/view"))
+        movie_links << link.attributes["href"].value
+      end
+      array_of_links.uniq!
     end
   end
 
