@@ -18,11 +18,11 @@ class Movie < ActiveRecord::Base
   validate :thumbnail_url, presence: true
 
   BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(open("http://bechdeltest.com/"))
-  end
 
   #scrapes movie show page, for description if passed or not
-  def self.one_movie_bechdel_website
-    page = BECHDEL_WEBSITE_HOMEPAGE
+  def self.one_movie_bechdel_website(movie_url)
+    encode_url = URI::encode("#{movie_url}")
+    page = Nokogiri::HTML(open("#{movie_url}"))
     num_tests_pass = page.css('p')[0].children[0].text
     explanation = page.css('h2')[0].children[0].attributes["title"].value
     explanation[0] = ""
@@ -33,15 +33,27 @@ class Movie < ActiveRecord::Base
                         explanation: explanation, movie_title: movie_title }
   end
 
+  def self.bechdel_movie_info
+    array_of_urls = Movie.bechdel_website_movie_urls
+    movies = []
+    array_of_urls.each do |url|
+      movies << Movie.one_movie_bechdel_website(url)
+    end
+    movies
+  end
+
   def self.all_movies_bechdel_website
+    binding.pry
     all_bechdel_info = []
-    bechdel_info = Movie.one_movie_bechdel_website
+    bechdel_info = bechdel_movie_info
     movie_urls = Movie.bechdel_titles_urls
     bechdel_info.each do |key, value|
       movie = {}
       movie_urls.each do |movie_url|
         if value == movie_url[:title]
           movie[:url] = movie_url[:url]
+        end
+      end
       all_bechdel_info << movie
     end
     all_bechdel_info
@@ -63,14 +75,16 @@ class Movie < ActiveRecord::Base
     movie_links = []
     links.each do |link|
       if !(link.attributes["href"]).nil? && (link.attributes["href"].value.start_with?("/view"))
-        movie_links << link.attributes["href"].value
+        partial_link = link.attributes["href"].value
+        full_link = "bechdeltest.com#{partial_link}"
+        movie_links << full_link
       end
     end
-    array_of_links.uniq!
+    movie_links.uniq!
     8.times do
-      array_of_links.pop
+      movie_links.pop
     end
-    array_of_links
+    movie_links
   end
 
   def self.bechdel_titles_urls

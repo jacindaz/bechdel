@@ -21,9 +21,8 @@ class MoviesController < ApplicationController
     end
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
-    if @movie.title = "Tammy"
-      @bechdel_website = Movie.website_scraping("http://bechdeltest.com/view/5608/tammy/")
-    end
+    binding.pry
+    @test = Movie.bechdel_movie_info
   end
 
   def new
