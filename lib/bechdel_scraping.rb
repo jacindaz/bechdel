@@ -107,6 +107,12 @@ class BechdelScraping
                             passing_tests: movie[:num_tests_pass],
                             tests_explanation: movie[:explanation]
                             )
+      elsif movie_in_db.present?
+        Bechdel.update(movie_id: movie_in_db.id,
+                            bechdel_url: movie[:url],
+                            passing_tests: movie[:num_tests_pass],
+                            tests_explanation: movie[:explanation]
+                            )
       end
     end
   end
