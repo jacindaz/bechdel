@@ -1,6 +1,12 @@
 class BechdelScraping
 
-  BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(get_page("http://bechdeltest.com/"))
+  def self.get_page(url)
+    sleep(1)
+    puts "scraping #{url}"
+    open(url)
+  end
+
+  BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(BechdelScraping.get_page("http://bechdeltest.com/"))
 
   #scrapes movie show page, for description if passed or not
   def one_movie_bechdel_website(movie_url)
@@ -14,12 +20,6 @@ class BechdelScraping
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
                         explanation: explanation, movie_title: movie_title }
-  end
-
-  def get_page(url)
-    sleep(1)
-    puts "scraping #{url}"
-    open(url)
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
