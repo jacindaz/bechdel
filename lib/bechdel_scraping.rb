@@ -14,7 +14,6 @@ class BechdelScraping
 
   #scrapes movie show page, for description if passed or not
   def one_movie_bechdel_website(movie_url)
-    #binding.pry
     encode_url = URI::encode("#{movie_url}")
     page = Nokogiri::HTML(get_page("#{encode_url}"))
     puts "Getting ready to scrape, here's the url: #{movie_url}"
@@ -58,6 +57,7 @@ class BechdelScraping
       end
     end
     movie_links.uniq!
+    #removes last 8 items, because there are more movie links than there are titles
     8.times do
       movie_links.pop
     end
@@ -98,7 +98,6 @@ class BechdelScraping
   def save_bechdel_to_db
     puts "Entering save bechdel to db method"
     bechdel_info = bechdel_movie_info
-    #binding.pry
     puts "This is all the bechdel info: #{bechdel_info}"
     bechdel_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:movie_title])

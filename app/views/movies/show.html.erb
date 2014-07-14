@@ -44,6 +44,16 @@
   <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
 <% end %>
 
+<% if !@bechdel_info.nil? %>
+  <hr>
+  <h4>What does BechdelTest.com say?</h4>
+  <ul>
+    <li><%= @bechdel_info.passing_tests %></li>
+    <li><%= @bechdel_info.tests_explanation %></li>
+  </ul>
+  <p>Read more on the <%= link_to "Bechdel Test website", @bechdel_info.bechdel_url, target: "_blank" %>.</p>
+<% end %>
+
 <hr>
 <h4>Leave a Comment</h4>
 
