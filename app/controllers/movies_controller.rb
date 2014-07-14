@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
-  include BechdelScraping
+
+  #include BechdelScraping
+
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
@@ -8,8 +10,8 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all.order("title ASC")
     end
-    @num_movies = 12
-    Movie.movie_info(@num_movies)
+    @num_top_box_office_movies = 50
+    Movie.movie_info(@num_top_box_office_movies)
     @movies = Movie.all
   end
 
@@ -21,7 +23,7 @@ class MoviesController < ApplicationController
     end
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
-    @bechdel_info = save_bechdel_to_db
+    #@bechdel_info = save_bechdel_to_db
   end
 
   def new
