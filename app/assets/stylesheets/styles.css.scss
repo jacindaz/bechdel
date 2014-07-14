@@ -1,4 +1,4 @@
-@include font-face(rieslingregular, '/fonts/riesling-font/riesling-webfont', normal, $asset-pipeline: true);
+@include font-face(rieslingregular, 'fonts/riesling-font/riesling-webfont', normal, $asset-pipeline: true);
 
 body {
   margin: 2% 15%;
@@ -20,6 +20,7 @@ div.element {
   margin-top:20px;
 }
 
-#header-title {
+h1#header-title {
   font-family: 'rieslingregular';
+  font-size: 4vw;
 }
