@@ -1,17 +1,19 @@
 class BechdelScraping
 
-  def self.get_page(url)
-    sleep(1)
-    puts "scraping #{url}"
-    open(url)
-  end
+  BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(open("http://bechdeltest.com/"))
 
-  BECHDEL_WEBSITE_HOMEPAGE = Nokogiri::HTML(BechdelScraping.get_page("http://bechdeltest.com/"))
+  def get_page(url)
+    sleep(1)
+    puts "Scraping: #{url}"
+    return open(url)
+  end
 
   #scrapes movie show page, for description if passed or not
   def one_movie_bechdel_website(movie_url)
+    #binding.pry
     encode_url = URI::encode("#{movie_url}")
     page = Nokogiri::HTML(get_page("#{encode_url}"))
+    puts "Getting ready to scrape, here's the url: #{movie_url}"
     num_tests_pass = page.css('p')[0].children[0].text
     explanation = page.css('h2')[0].children[0].attributes["title"].value
     explanation[0] = ""
@@ -20,19 +22,27 @@ class BechdelScraping
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
                         explanation: explanation, movie_title: movie_title }
+    puts "====================================="
+    puts "Done scraping #{movie_url}"
+    puts "Here's the info: #{bechdel_website}"
+    puts "=====================================", nil
+    return bechdel_website
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
   def bechdel_website_titles
+    puts "Entering bechdel_website_titles method"
     page = BECHDEL_WEBSITE_HOMEPAGE
     movie_titles = []
     page.xpath('//a[contains(@id, "movie")]').each do |movie|
       movie_titles << movie.text
     end
+    return movie_titles
   end
 
   #scrapes homepage, grabs links of movie show page
   def bechdel_website_movie_urls
+    puts "Entering bechdel_website_movie_urls method"
     page = BECHDEL_WEBSITE_HOMEPAGE
     links = page.css("a")
     movie_links = []
@@ -47,10 +57,11 @@ class BechdelScraping
     8.times do
       movie_links.pop
     end
-    movie_links
+    return movie_links
   end
 
   def bechdel_titles_urls
+    puts "Entering bechdel_titles_urls"
     page = BECHDEL_WEBSITE_HOMEPAGE
     all_titles = bechdel_website_titles
     all_urls = bechdel_website_movie_urls
@@ -67,19 +78,25 @@ class BechdelScraping
   end
 
   def bechdel_movie_info
+    puts "Entering bechdel_movie_info method"
     array_of_urls = bechdel_website_movie_urls
+    puts "Here's the array of URLs: #{array_of_urls}"
+
     movies = []
     array_of_urls.each do |url|
       one_movie_hash = one_movie_bechdel_website(url)
       one_movie_hash[:url] = url
+      puts "one movie's hash of info: #{one_movie_hash}"
       movies << one_movie_hash
     end
     movies
   end
 
   def save_bechdel_to_db
+    puts "Entering save bechdel to db method"
     bechdel_info = bechdel_movie_info
-    binding.pry
+    #binding.pry
+    puts "This is all the bechdel info: #{bechdel_info}"
     bechdel_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:movie_title])
       if !movie_in_db.nil?
