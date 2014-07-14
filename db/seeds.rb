@@ -26,17 +26,5 @@
 User.delete_all
 Movie.delete_all
 
-User.create!(username: 'Jacinda', password: 'Jacinda', avatar_url: 'avatars2.githubusercontent.com/u/6325129?s=460',
+User.create!(username: 'Jacinda', password: 'Jacinda2014', avatar_url: 'avatars2.githubusercontent.com/u/6325129?s=460',
               provider: 'Github', location: 'Cambridge', email: 'jacindaz@gmail.com')
-
-# movies = [
-#   { title: "Maleficent", year: 2014, summary: "Maleficent explores the untold story of Disney's most iconic villain from the classic 'Sleeping Beauty' and the elements of her betrayal that ultimately turn her pure heart to stone. Driven by revenge and a fierce desire to protect the moors over which she presides, Maleficent cruelly places an irrevocable curse upon the human king's newborn infant Aurora. As the child grows, Aurora is caught in the middle of the seething conflict between the forest kingdom she has grown to love and the human kingdom that holds her legacy. Maleficent realizes that Aurora may hold the key to peace in the land and is forced to take drastic actions that will change both worlds forever.",
-#     language: "English", country_produced: "USA", bechdel_rating: "pass", poster_url: "http://content8.flixster.com/rtmovie/11/80/118050_gal.jpg",
-#     rotten_tomatoes_rating: "5.6", movie_url: 'http://www.rottentomatoes.com/m/maleficent_2014/',
-#     user_id: 1}
-# ]
-
-Movie.create!(title: "Maleficent", year: 2014, summary: "Maleficent explores the untold story of Disney's most iconic villain from the classic 'Sleeping Beauty' and the elements of her betrayal that ultimately turn her pure heart to stone. Driven by revenge and a fierce desire to protect the moors over which she presides, Maleficent cruelly places an irrevocable curse upon the human king's newborn infant Aurora. As the child grows, Aurora is caught in the middle of the seething conflict between the forest kingdom she has grown to love and the human kingdom that holds her legacy. Maleficent realizes that Aurora may hold the key to peace in the land and is forced to take drastic actions that will change both worlds forever.",
-    language: "English", country_produced: "USA", bechdel_rating: "pass", poster_url: "http://content8.flixster.com/rtmovie/11/80/118050_gal.jpg",
-    rotten_tomatoes_rating: "5.6", movie_url: 'http://www.rottentomatoes.com/m/maleficent_2014/',
-    user_id: 1)

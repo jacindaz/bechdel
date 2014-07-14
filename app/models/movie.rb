@@ -1,8 +1,10 @@
+require_relative 'bechdel'
+
 class Movie < ActiveRecord::Base
   has_many :votes
   has_many :comments
   belongs_to :user
-  belongs_to :bechdelinfo
+  belongs_to :bechdel
 
   validate :title, presence: true, uniqueness: { scope: :year }
   validate :year, presence: true, inclusion: { in: [1900..2014] }
