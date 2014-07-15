@@ -53,4 +53,3 @@ gem 'refills'
 gem 'bitters'
 
 gem 'nokogiri', '~> 1.6.2.1'
-
