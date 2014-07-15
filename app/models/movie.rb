@@ -6,19 +6,19 @@ class Movie < ActiveRecord::Base
   belongs_to :user
   belongs_to :bechdel
 
-  validate :title, presence: true, uniqueness: { scope: :year }
-  validate :year, presence: true, inclusion: { in: [1900..2014] }
-  validate :summary, presence: true, length: {
+  validates :title, presence: true, uniqueness: { scope: :year }
+  validates :year, presence: true, inclusion: { in: [1900..2014] }
+  validates :summary, presence: true, length: {
       minimum: 5,
       maximum: 200,
       tokenizer: lambda { |str| str.scan(/\w+/) },
       too_short: "Must have at least %{count} words.",
       too_long: "Must have less than %{count} words."
     }
-  validate :language, presence: true
-  validate :country_produced, presence: true
-  validate :user_id, presence: true
-  validate :thumbnail_url, presence: true
+  validates :language, presence: true
+  validates :country_produced, presence: true
+  validates :user_id, presence: true
+  validates :thumbnail_url, presence: true
 
   def user_already_voted?(user_id, movie_id)
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?

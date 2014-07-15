@@ -1,7 +1,8 @@
 <h1>Submit a New Movie</h1>
 
-<%= simple_form_for(@movie) do |f| %>
+<% current_user.errors %>
 
+<%= simple_form_for(@movie) do |f| %>
   <%= f.input :title %>
   <%= f.input :year, collection: (1900..2014).to_a.reverse, prompt: "Select year produced" %>
   <%= f.input :summary %>
