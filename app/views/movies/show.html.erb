@@ -1,6 +1,6 @@
-<h1>
+<h2 class="sub-header">
   <%= image_tag "#{@movie_poster}", alt: "Movie poster image", class: "movie-poster-image" %>
-  Info about <%= @movie.title %>
+  ABOUT <%= @movie.title.upcase %>
 </h1>
 <br>
 
@@ -11,24 +11,35 @@
 </ul>
 
 <br>
-<h4>Summary</h4>
+<h4 class="sub-header">SUMMARY</h4>
 <p><%= @movie.summary %></p>
 
 <hr>
+<h2>What does BechdelTest.com say?</h2>
+<% if !@bechdel_info.nil? %>
+  <ul>
+    <li><%= @bechdel_info.passing_tests %></li>
+    <li><%= @bechdel_info.tests_explanation %></li>
+  </ul>
+  <p>Read more on the <%= link_to "Bechdel Test website", @bechdel_info.bechdel_url, target: "_blank" %>.</p>
+<% else %>
+  <p>Unfortunately bechdeltest.com doesn't have ratings for this movie. Please vote or comment below!</p>
+<% end %>
+
 <div class="container">
   <div class="element">
-    <h5>Does it Pass?</h5><br>
+    <h2>Does it Pass?</h2><br>
     <% if user_signed_in? && !@user_voted %>
       <%= button_to "Pass", movie_votes_path(@movie, params.merge(vote: {vote: 1})), action: :create, method: :post %>
       <%= button_to "Not Pass", movie_votes_path(@movie, params.merge(vote: {vote: -1})), action: :create, method: :post %>
     <% elsif @user_voted %>
       <h5><i>Thanks for already voting on this movie!</i></h5>
     <% elsif !user_signed_in? %>
-      <h5><i>Please sign in to vote.</i></h5>
+      <p><i><%= link_to 'Please sign in to vote.', new_user_session_path, class: "sign-up" %></i></p>
     <% end %>
   </div>
   <div class="element">
-    <h5>What's the Bechdel Test Again?</h5>
+    <h2>What's the Bechdel Test Again?</h2>
     <ol>
       <li>The movie has at least 2 named women</li>
       <li>Who talk to each other</li>
@@ -44,18 +55,8 @@
   <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
 <% end %>
 
-<% if !@bechdel_info.nil? %>
-  <hr>
-  <h4>What does BechdelTest.com say?</h4>
-  <ul>
-    <li><%= @bechdel_info.passing_tests %></li>
-    <li><%= @bechdel_info.tests_explanation %></li>
-  </ul>
-  <p>Read more on the <%= link_to "Bechdel Test website", @bechdel_info.bechdel_url, target: "_blank" %>.</p>
-<% end %>
-
 <hr>
-<h4>Leave a Comment</h4>
+<h2>Leave a Comment</h2>
 
 <%= simple_form_for([@movie, @comment]) do |f| %>
 

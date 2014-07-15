@@ -1,4 +1,7 @@
 @include font-face(rieslingregular, 'fonts/riesling-font/riesling-webfont', normal, $asset-pipeline: true);
+@include font-face(seasideresortnfregular, 'fonts/seaside-font/seaside-webfont', normal, $asset-pipeline: true);
+@include font-face(uppereastsideregular, 'fonts/uppereastside-font/uppereastside-webfont', normal, $asset-pipeline: true);
+
 
 body {
   margin: 2% 15%;
@@ -20,7 +23,12 @@ div.element {
   margin-top:20px;
 }
 
-h1#header-title {
-  font-family: 'rieslingregular';
+.header-title {
+  font-family: 'seasideresortnfregular';
   font-size: 4vw;
 }
+.sub-header {
+  font-family: 'uppereastsideregular';
+}
+h1, h2, h3, h4, h5 { font-family: 'uppereastsideregular'; }
+h1 {font-size: 3.5vw;}
