@@ -10,11 +10,19 @@ feature 'user writes a comment on a particular movie' do
     end
 
     scenario 'user writes a comment on a movie' do
+      puts "I am in scenario 1"
+      movie = FactoryGirl.create(:movie, year: 1988)
+      puts "Movie: #{movie}"
       comment = FactoryGirl.create(:comment)
-      visit movie_path(comment.movie)
+
+      puts "======================================"
+      puts "Comment factory: #{comment}"
+      puts "======================================"
+
+      visit movie_path(movie)
 
       fill_in "comment_body", with: comment.body
-      click_on "Submit"
+      click_on "Create Comment"
       expect(page).to have_content "Comment saved."
       expect(page).to have_content comment.body
     end
@@ -22,8 +30,9 @@ feature 'user writes a comment on a particular movie' do
     scenario 'user submits an empty comment' do
       movie = FactoryGirl.create(:movie)
       visit movie_path(movie)
-      click_on "Submit"
-      expect(page).to have_content "Comment not saved."
+      binding.pry
+      click_on "Create Comment"
+      expect(page).to have_content "Unable to save comment."
     end
 
   end

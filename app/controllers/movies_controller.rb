@@ -30,6 +30,7 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
+    @movie.year = movie_params[:year].to_i
     @movie.user = current_user
     if @movie.save
       flash[:notice] = "Movie saved."

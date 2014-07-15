@@ -2,8 +2,8 @@ class Comment < ActiveRecord::Base
   belongs_to :movie
   belongs_to :user
 
-  validates :parent_comment_id, numericality: { only_integer: true }
-  validates :movie_id, presence: true, numericality: { only_integer: true }, uniqueness: { scope: :user_id }
+  validates :movie_id, presence: true, numericality: { only_integer: true },
+              uniqueness: { scope: :user_id }
   validates :user_id, presence: true, numericality: { only_integer: true }
   validates :body, presence: true, allow_blank: false, length: {
       minimum: 5,

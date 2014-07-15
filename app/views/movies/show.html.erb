@@ -60,6 +60,12 @@
 
 <% if user_signed_in? %>
   <%= simple_form_for([@movie, @comment]) do |f| %>
+    <%= f.error_notification %>
+    <% if @comment.errors.messages.present? %>
+      <% @comment.errors.messages.each do |field, error| %>
+        <p><%= field.capitalize %> <%= error[0] %></p>
+      <% end %>
+    <% end %>
     <%= f.input_field :body, input_html: { id: "comment_body"} %>
     <%= f.button :submit, "Submit" %>
   <% end %>

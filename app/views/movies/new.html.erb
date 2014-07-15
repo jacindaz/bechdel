@@ -3,6 +3,16 @@
 <% current_user.errors %>
 
 <%= simple_form_for(@movie) do |f| %>
+  <% if @movie.errors.messages.present? %>
+    <div class="errors-div">
+      <p>I'm sorry, your movie couldn't be saved because:</p>
+      <ul>
+        <% @movie.errors.messages.each do |field, error| %>
+          <li><%= field.capitalize %> <%= error[0] %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <%= f.input :title %>
   <%= f.input :year, collection: (1900..2014).to_a.reverse, prompt: "Select year produced" %>
   <%= f.input :summary %>

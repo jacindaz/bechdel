@@ -7,6 +7,7 @@ class Movie < ActiveRecord::Base
   belongs_to :bechdel
 
   validates :title, presence: true, uniqueness: { scope: :year }
+  binding.pry
   validates :year, presence: true, inclusion: { in: [1900..2014] }
   validates :summary, presence: true, length: {
       minimum: 5,

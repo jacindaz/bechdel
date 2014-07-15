@@ -1,22 +1,18 @@
 class CommentsController < ApplicationController
 
-  def new
-    @comment = Comment.new
-  end
-
   def create
-    current_movie = Movie.find(params[:movie_id].to_i)
+    @movie = Movie.find(params[:movie_id].to_i)
     @comment = Comment.new(comment_params)
     @comment.user = current_user
-    @comment.movie = current_movie
+    @comment.movie = @movie
 
     #binding.pry
 
     if @comment.save
       flash[:notice] = "Comment saved."
-      redirect_to movie_path(current_movie)
+      redirect_to movie_path(@movie)
     else
-      flash.now[:notice] = "Unable to save comment."
+      flash[:notice] = "Unable to save comment."
       render :'movies/show'
     end
   end
