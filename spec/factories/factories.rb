@@ -1,9 +1,9 @@
 FactoryGirl.define do
 
-  # sequence(:random_movie_year) do |n|
-  #   @year_array = (1900..2014).to_a.shuffle
-  #   @year_array[n]
-  # end
+  sequence(:random_movie_year) do |n|
+    @year_array = (1900..2014).to_a.shuffle
+    @year_array[n]
+  end
 
   factory :user do
     sequence(:username) {|n| "filmbuff#{n}"}
@@ -14,7 +14,7 @@ FactoryGirl.define do
 
   factory :movie do
     sequence(:title) {|n| "movie title #{n}"}
-    year 1978
+    year { generate(:random_movie_year)}
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
     language "English"
     country_produced "United States"
