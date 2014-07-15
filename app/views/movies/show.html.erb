@@ -58,17 +58,17 @@
 <hr>
 <h2>Leave a Comment</h2>
 
-<%= simple_form_for([@movie, @comment]) do |f| %>
-
-  <%= f.input_field :body %>
-  <%= f.button :submit, "Submit" %>
-
+<% if user_signed_in? %>
+  <%= simple_form_for([@movie, @comment]) do |f| %>
+    <%= f.input_field :body, input_html: { id: "comment_body"} %>
+    <%= f.button :submit, "Submit" %>
+  <% end %>
+<% else %>
+  <p>Sign in to leave a comment!</p>
 <% end %>
 
 <% if !@movie.comments.nil? %>
-  <hr>
   <% @movie.comments.each do |comment| %>
-    <p></p>
     <div class="comment">
       <div class="comment-image">
         <% if !comment.user.avatar_url.nil? %>

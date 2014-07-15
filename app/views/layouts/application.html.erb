@@ -12,10 +12,20 @@
 
 <%= render partial: "refills/navigation" %>
 <br>
-<h4 style="color:purple; font-style: italic;"><%= notice %></h4>
+<% if flash.present? %>
+  <h2 style="color: purple;font-style: italic;">
+    <%= flash[:notice] %>
+  </h2>
+<% end %>
 <br>
 
 <%= yield %>
+
+<footer class="footer-2">
+  <center>
+    <p>Created by Jacinda Zhong | Launch Academy Week 8 Systems Check | July 2014</p>
+  </center>
+</footer>
 
 </body>
 </html>
