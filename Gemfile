@@ -36,11 +36,14 @@ gem "chartkick"
 
 gem 'rails_12factor', group: :production
 
+group :development do
+  gem 'capybara'
+  gem 'pry-rails'
+  gem 'factory_girl_rails'
+end
+
 group :development, :test do
   gem 'rspec-rails'
-  gem 'capybara'
-  gem 'factory_girl_rails'
-  gem 'pry-rails'
 end
 
 #CSS Frameworks

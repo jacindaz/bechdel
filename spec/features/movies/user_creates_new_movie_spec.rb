@@ -13,6 +13,8 @@ feature 'user creates a new movie' do
       movie = FactoryGirl.create(:movie)
       visit new_movie_path
 
+      puts "Movie title: #{movie.title}, Year: #{movie.year}"
+
       fill_in "Title", with: movie.title
       select movie.year, from: "Year"
       fill_in "Summary", with: movie.summary

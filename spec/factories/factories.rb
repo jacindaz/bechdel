@@ -5,15 +5,9 @@ FactoryGirl.define do
     @year_array[n]
   end
 
-  factory :user do
-    sequence(:username) {|n| "filmbuff#{n}"}
-    sequence(:email) {|n| "jazz#{n}@movies.com"}
-    password '1234567890'
-    password_confirmation '1234567890'
-  end
-
   factory :movie do
-    sequence(:title) {|n| "movie title #{n}"}
+    #sequence(:title) {|n| "movie title #{n}"}
+    title { generate() }
     year { generate(:random_movie_year)}
     sequence(:summary) {|n| "movie summary word word word word #{n}"}
     language "English"
