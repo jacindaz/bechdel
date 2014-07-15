@@ -65,7 +65,11 @@
         <p>I'm sorry, your comment couldn't be saved because:</p>
         <ul>
           <% @comment.errors.messages.each do |field, error| %>
-            <li><%= field.capitalize %> <%= error[0] %></li>
+            <% if field.to_s == "movie_id" %>
+              <li>Users can only submit 1 comment per movie.</li>
+            <% else %>
+              <li><%= field.capitalize %> <%= error[0] %></li>
+            <% end %>
           <% end %>
         </ul>
       </div>
