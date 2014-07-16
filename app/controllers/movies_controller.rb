@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
     @num_top_box_office_movies = 50
     Movie.movie_info(@num_top_box_office_movies)
     @movies = Movie.all
+
   end
 
   def show

@@ -1,6 +1,12 @@
 class BechdelController < ApplicationController
 
   def index
+    @movies_passed = Bechdel.count(:passing_tests)
+
+ #TestResult.count(:all,:conditions=>['starttime>=?',Time.now-3600*24])
+    string = "This movie passed 1 of 3 tests. "
+    @passed_1 = Bechdel.count(:all, conditions: ['passing_tests = ?', string])
+    @passed_2 = Bechdel.select("passing_tests = 'This movie passed 1 of 3 tests.'").count(:passing_tests)
   end
 
   def new

@@ -23,7 +23,7 @@ class BechdelScraping
     explanation[-1] = ""
     title = page.css('title').children.text
     movie_title = title.split(" -")[0]
-    bechdel_website = { num_tests_pass: num_tests_pass,
+    bechdel_website = { num_tests_pass: num_tests_pass.strip,
                         explanation: explanation, movie_title: movie_title }
     puts "====================================="
     puts "Done scraping #{movie_url}"
