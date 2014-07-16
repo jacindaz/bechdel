@@ -10,7 +10,7 @@ feature 'user writes a comment on a particular movie' do
     end
 
     scenario 'user writes a comment on a movie' do
-      comment = FactoryGirl.create(:comment)
+      comment = FactoryGirl.build(:comment)
       visit movie_path(comment.movie)
 
       fill_in "comment_body", with: comment.body
