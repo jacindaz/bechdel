@@ -1,16 +1,18 @@
 class CannesScraping
 
-  attr_reader :cannes_info, :user_id
+  attr_reader :cannes_info, :user_id, :year
 
   def initialize(year, user_id)
+    @year = year
     @user_id = user_id
     @cannes_info = Nokogiri::HTML(open("http://www.festival-cannes.fr/en/archives/#{year}/inCompetition.html"))
   end
 
   def selection_links
+    puts "Pulling links from #{year} Cannes Film Festival selection"
     page = cannes_info
     movies = []
-    (page.css('ul.list-movies-1').css('li').css('a')).each do |movie_link|
+    (page.xpath('//a[contains(@href, "/en/archives/ficheFilm")]')).each do |movie_link|
       movie = {}
       individual_link = movie_link.attributes["href"].value
       movie_title = movie_link.text
@@ -18,6 +20,7 @@ class CannesScraping
       movie[:url] = "http://www.festival-cannes.fr#{individual_link}"
       movies << movie
     end
+    puts "Done pulling in links for each movie."
     movies
   end
 
@@ -34,6 +37,8 @@ class CannesScraping
   end
 
   def movie_info(url)
+    puts nil
+    puts "============================================="
     puts "Gathering info for one movie: #{url}"
     page = Nokogiri::HTML(open("#{url}"))
     movie = {}
@@ -58,7 +63,6 @@ class CannesScraping
     puts "In all movie info method, putting together url and other movie info"
     combined_information = []
     movie_links = selection_links
-    binding.pry
     puts "These are the movie links from all movie method: #{movie_links}"
     #loop over links
     movie_links.each do |movie|
@@ -70,9 +74,11 @@ class CannesScraping
   end
 
   def save_cannes
+    puts nil
+    puts "============================================="
     puts "Entering save cannes movies to db method"
     cannes_info = all_movie_info
-    puts "This is all the cannes info: #{bechdel_info}"
+    puts "This is all the cannes info: #{cannes_info}"
     cannes_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:title])
       if movie_in_db.nil?
