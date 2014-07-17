@@ -50,22 +50,28 @@ class CannesScraping
 
   def save_cannes
     puts "Entering save cannes movies to db method"
-    movie_info = bechdel_movie_info
-    puts "This is all the bechdel info: #{bechdel_info}"
-    bechdel_info.each do |movie|
-      movie_in_db = Movie.find_by_title(movie[:movie_title])
-      if !movie_in_db.nil?
-        Bechdel.create(movie_id: movie_in_db.id,
-                            bechdel_url: movie[:url],
-                            passing_tests: movie[:num_tests_pass],
-                            tests_explanation: movie[:explanation]
-                            )
-      elsif movie_in_db.present?
-        Bechdel.update(movie_id: movie_in_db.id,
-                            bechdel_url: movie[:url],
-                            passing_tests: movie[:num_tests_pass],
-                            tests_explanation: movie[:explanation]
-                            )
+    cannes_info = all_movie_info
+    puts "This is all the cannes info: #{bechdel_info}"
+    cannes_info.each do |movie|
+      movie_in_db = Movie.find_by_title(movie[:title])
+      if movie_in_db.nil?
+        canne_object = Canne.create(cannes_url: movie[:cannes_url])
+        Movie.create(title: movie[:title],
+                      year: movie[:year],
+                      summary: movie[:summary],
+                      language: movie[:language],
+                      country_produced: movie[:country_produced],
+                      user_id: 2,
+                      cannes_id: canne_object.id)
+      elsif !movie_in_db.nil?
+        canne_object = Canne.update(cannes_url: movie[:cannes_url])
+        Movie.update(title: movie[:title],
+                      year: movie[:year],
+                      summary: movie[:summary],
+                      language: movie[:language],
+                      country_produced: movie[:country_produced],
+                      user_id: 2,
+                      cannes_id: canne_object.id)
       end
     end
   end
@@ -93,4 +99,5 @@ end
 #     t.integer  "up_votes",         default: 0,               null: false
 #     t.integer  "down_votes",       default: 0,               null: false
 #     t.string   "thumbnail_url",    default: "no-image.jpeg"
+#     t.integer  "cannes_id"
 #   end
