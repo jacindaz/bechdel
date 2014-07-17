@@ -21,21 +21,24 @@ class CannesScraping
     movies
   end
 
-  def movie_info(url)
-    puts "Gathering info for one movie: #{url}"
-    page = Nokogiri::HTML(open("#{url}"))
-    movie = {}
-
-    movie_title_parsed = page.title.split("-")[0].strip.split
+  def parse_movie_title(html_text)
+    movie_title_parsed = html_text.title.split("-")[0].strip.split.map(&:capitalize)
     movie_title_parsed.each do |word|
       if word[0] == "("
         letter = word[1]
         word[1] = letter.upcase
       end
     end
-    binding.pry
-    movie[:title] = movie_title_parsed.map(&:capitalize).join(' ')
+    movie_title_join = movie_title_parsed.join(' ')
+    movie_title_join
+  end
 
+  def movie_info(url)
+    puts "Gathering info for one movie: #{url}"
+    page = Nokogiri::HTML(open("#{url}"))
+    movie = {}
+
+    movie[:title] = parse_movie_title(page)
     movie[:year] = page.xpath('//dt[contains(text(),"Year:")]').first.next_element.text.to_i
     movie[:summary] = page.css('div.synopsis-1').text.split('Synopsis')[1].strip
     movie[:language] = "Unknown"
@@ -47,15 +50,15 @@ class CannesScraping
       complete_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')[0].attributes["src"].value
       movie[:thumbnail_url] = "http://www.festival-cannes.fr#{complete_url}"
     end
-    movie
-    binding.pry
     puts "Done gathering, this is 1 movie's info: #{movie}"
+    movie
   end
 
   def all_movie_info
     puts "In all movie info method, putting together url and other movie info"
     combined_information = []
     movie_links = selection_links
+    binding.pry
     puts "These are the movie links from all movie method: #{movie_links}"
     #loop over links
     movie_links.each do |movie|
