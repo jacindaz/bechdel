@@ -5,6 +5,7 @@ class Movie < ActiveRecord::Base
   has_many :comments
   belongs_to :user
   belongs_to :bechdel
+  belongs_to :canne
 
   validates :title, presence: true, uniqueness: { scope: :year }
   validates :year, presence: true, inclusion: { in: 1900..2014 }

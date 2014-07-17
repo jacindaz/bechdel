@@ -22,23 +22,41 @@ class CannesScraping
   end
 
   def movie_info(url)
+    puts "Gathering info for one movie: #{url}"
     page = Nokogiri::HTML(open("#{url}"))
     movie = {}
-    movie[:title] = page.title.split("-")[0].strip.split.map(&:capitalize).join(' ')
+
+    movie_title_parsed = page.title.split("-")[0].strip.split
+    movie_title_parsed.each do |word|
+      if word[0] == "("
+        letter = word[1]
+        word[1] = letter.upcase
+      end
+    end
+    binding.pry
+    movie[:title] = movie_title_parsed.map(&:capitalize).join(' ')
+
     movie[:year] = page.xpath('//dt[contains(text(),"Year:")]').first.next_element.text.to_i
     movie[:summary] = page.css('div.synopsis-1').text.split('Synopsis')[1].strip
     movie[:language] = "Unknown"
     movie[:country_produced] = page.xpath('//dt[contains(text(), "Country:")]').first.next_element.text.strip.split(", ")[0].capitalize
-    movie[:user_id] = 2
+    movie[:user_id] = user_id
 
-    partial_thumbnail_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')[0].attributes["src"].value
-    movie[:thumbnail_url] = "http://www.festival-cannes.fr#{partial_thumbnail_url}"
+    partial_thumbnail_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')
+    if !partial_thumbnail_url.empty?
+      complete_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')[0].attributes["src"].value
+      movie[:thumbnail_url] = "http://www.festival-cannes.fr#{complete_url}"
+    end
     movie
+    binding.pry
+    puts "Done gathering, this is 1 movie's info: #{movie}"
   end
 
   def all_movie_info
+    puts "In all movie info method, putting together url and other movie info"
     combined_information = []
     movie_links = selection_links
+    puts "These are the movie links from all movie method: #{movie_links}"
     #loop over links
     movie_links.each do |movie|
       one_movie_info = movie_info(movie[:url])
@@ -61,7 +79,7 @@ class CannesScraping
                       summary: movie[:summary],
                       language: movie[:language],
                       country_produced: movie[:country_produced],
-                      user_id: 2,
+                      user_id: movie[:user_id],
                       cannes_id: canne_object.id)
       elsif !movie_in_db.nil?
         canne_object = Canne.update(cannes_url: movie[:cannes_url])
@@ -70,7 +88,7 @@ class CannesScraping
                       summary: movie[:summary],
                       language: movie[:language],
                       country_produced: movie[:country_produced],
-                      user_id: 2,
+                      user_id: movie[:user_id],
                       cannes_id: canne_object.id)
       end
     end
