@@ -1,15 +1,16 @@
 class CannesScraping
 
-  attr_reader :cannes_info, :movie_year
+  attr_reader :cannes_info, :user_id
 
-  def initialize(year)
-    @movie_year = year
+  def initialize(year, user_id)
+    @user_id = user_id
     @cannes_info = Nokogiri::HTML(open("http://www.festival-cannes.fr/en/archives/#{year}/inCompetition.html"))
   end
 
   def selection_links
+    page = cannes_info
     movies = []
-    (cannes_info.css('ul.list-movies-1').css('li').css('a')).each do |movie_link|
+    (page.css('ul.list-movies-1').css('li').css('a')).each do |movie_link|
       movie = {}
       individual_link = movie_link.attributes["href"].value
       movie_title = movie_link.text
@@ -21,9 +22,18 @@ class CannesScraping
   end
 
   def movie_info
+    page = cannes_info
     movie = {}
-    movie[:title] = cannes_info.title.split("-")[0].strip.split.map(&:capitalize).join(' ')
+    movie[:title] = page.title.split("-")[0].strip.split.map(&:capitalize).join(' ')
     movie[:year] = page.xpath('//dt[contains(text(),"Year:")]').first.next_element.text.to_i
+    movie[:summary] = page.css('div.synopsis-1').text.split('Synopsis')[1].strip
+    movie[:language] = "Unknown"
+    movie[:country_produced] = page.xpath('//dt[contains(text(), "Country:")]').first.next_element.text.strip.split(", ")[0].capitalize
+    movie[:user_id] = 2
+
+    partial_thumbnail_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')[0].attributes["src"].value
+    movie[:thumbnail_url] = "http://www.festival-cannes.fr#{partial_thumbnail_url}"
+    movie
   end
 
 
