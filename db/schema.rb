@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714142414) do
+ActiveRecord::Schema.define(version: 20140717173213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 20140714142414) do
     t.string   "tests_explanation", null: false
   end
 
+  create_table "cannes", force: true do |t|
+    t.string   "cannes_url", null: false
+    t.integer  "movie_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "comments", force: true do |t|
     t.integer  "parent_comment_id"
     t.integer  "movie_id",          null: false
@@ -63,6 +70,7 @@ ActiveRecord::Schema.define(version: 20140714142414) do
     t.integer  "up_votes",         default: 0,               null: false
     t.integer  "down_votes",       default: 0,               null: false
     t.string   "thumbnail_url",    default: "no-image.jpeg"
+    t.integer  "cannes_id"
   end
 
   add_index "movies", ["title"], name: "index_movies_on_title", unique: true, using: :btree

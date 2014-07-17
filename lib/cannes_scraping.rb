@@ -21,8 +21,8 @@ class CannesScraping
     movies
   end
 
-  def movie_info
-    page = cannes_info
+  def movie_info(url)
+    page = Nokogiri::HTML(open("#{url}"))
     movie = {}
     movie[:title] = page.title.split("-")[0].strip.split.map(&:capitalize).join(' ')
     movie[:year] = page.xpath('//dt[contains(text(),"Year:")]').first.next_element.text.to_i
@@ -36,8 +36,48 @@ class CannesScraping
     movie
   end
 
+  def all_movie_info
+    combined_information = []
+    movie_links = selection_links
+    #loop over links
+    movie_links.each do |movie|
+      one_movie_info = movie_info(movie[:url])
+      one_movie_info[:cannes_url] = movie[:url]
+      combined_information << one_movie_info
+    end
+    combined_information
+  end
+
+  def save_cannes
+    puts "Entering save cannes movies to db method"
+    movie_info = bechdel_movie_info
+    puts "This is all the bechdel info: #{bechdel_info}"
+    bechdel_info.each do |movie|
+      movie_in_db = Movie.find_by_title(movie[:movie_title])
+      if !movie_in_db.nil?
+        Bechdel.create(movie_id: movie_in_db.id,
+                            bechdel_url: movie[:url],
+                            passing_tests: movie[:num_tests_pass],
+                            tests_explanation: movie[:explanation]
+                            )
+      elsif movie_in_db.present?
+        Bechdel.update(movie_id: movie_in_db.id,
+                            bechdel_url: movie[:url],
+                            passing_tests: movie[:num_tests_pass],
+                            tests_explanation: movie[:explanation]
+                            )
+      end
+    end
+  end
 
 end
+
+# create_table "cannes", force: true do |t|
+#   t.string   "cannes_url", null: false
+#   t.integer  "movie_id",   null: false
+#   t.datetime "created_at"
+#   t.datetime "updated_at"
+# end
 
 
 # create_table "movies", force: true do |t|
