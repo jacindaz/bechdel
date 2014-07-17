@@ -1,0 +1,12 @@
+<h1>Some Stats from BechdelTest.com</h1>
+<ul>
+  <li>Movies w/ ratings: <%= @movies_passed %></li>
+  <li>Passed 1 test: <%= @passed_1 %></li>
+  <li>Passed 2 tests: <%= @passed_2 %></li>
+  <li>Dubiously passed 2 tests: <%= @passed_2_dubious %></li>
+  <li>Passed all tests: <%= @passed_3 %></li>
+</ul>
+<hr>
+
+<h1>How many passed 1, 2, 3 tests?</h1>
+<%= pie_chart Bechdel.group(:passing_tests).count %>

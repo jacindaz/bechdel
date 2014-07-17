@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   end
 
   resources :bechdel, only: [:index]
-
+  resources :analytics, only: [:index]
 end
