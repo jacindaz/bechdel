@@ -8,6 +8,12 @@ class CannesScraping
     @cannes_info = Nokogiri::HTML(open("http://www.festival-cannes.fr/en/archives/#{year}/inCompetition.html"))
   end
 
+  def get_page(url)
+    sleep(2)
+    puts "Scraping: #{url}"
+    return open(url)
+  end
+
   def selection_links
     puts "Pulling links from #{year} Cannes Film Festival selection"
     page = cannes_info
@@ -40,7 +46,7 @@ class CannesScraping
     puts nil
     puts "============================================="
     puts "Gathering info for one movie: #{url}"
-    page = Nokogiri::HTML(open("#{url}"))
+    page = Nokogiri::HTML(get_page("#{url}"))
     movie = {}
 
     movie[:title] = parse_movie_title(page)
@@ -80,25 +86,26 @@ class CannesScraping
     cannes_info = all_movie_info
     puts "This is all the cannes info: #{cannes_info}"
     cannes_info.each do |movie|
+
       movie_in_db = Movie.find_by_title(movie[:title])
       if movie_in_db.nil?
-        canne_object = Canne.create(cannes_url: movie[:cannes_url])
-        Movie.create(title: movie[:title],
+        binding.pry
+        canne_object = Canne.create!(cannes_url: movie[:cannes_url])
+        Movie.create!(title: movie[:title],
                       year: movie[:year],
                       summary: movie[:summary],
                       language: movie[:language],
                       country_produced: movie[:country_produced],
                       user_id: movie[:user_id],
-                      cannes_id: canne_object.id)
+                      cannes_id: canne_object.id,
+                      thumbnail_url: movie[:thumbnail_url])
       elsif !movie_in_db.nil?
-        canne_object = Canne.update(cannes_url: movie[:cannes_url])
-        Movie.update(title: movie[:title],
-                      year: movie[:year],
-                      summary: movie[:summary],
-                      language: movie[:language],
-                      country_produced: movie[:country_produced],
-                      user_id: movie[:user_id],
-                      cannes_id: canne_object.id)
+        if movie_in_db.cannes_id.nil?
+          Canne.create(cannes_url: movie[:cannes_url])
+        else
+          canne_object = Canne.find(movie_in_db.cannes_id)
+          canne_object.update(cannes_url: movie[:cannes_url])
+        end
       end
     end
   end
