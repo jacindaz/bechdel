@@ -3,14 +3,12 @@
   <li>Movies w/ ratings: <%= @movies_passed %></li>
   <li>Passed 1 test: <%= @passed_1 %></li>
   <li>Passed 2 tests: <%= @passed_2 %></li>
-  <li>Dubiously passed 2 tests: <%= @passed_2_dubious %></li>
   <li>Passed all tests: <%= @passed_3 %></li>
 </ul>
 <hr>
 
-<h1>How many passed 1, 2, 3 tests?</h1>
-<%= pie_chart Bechdel.group(:passing_tests).count %>
-
+<h1>How many tests did it pass?</h1>
+<%= pie_chart ({"Passes 1 test" => @passed_1, "Passes 2 tests" => @passed_2, "Passes 3 tests" => @passed_3}) %>
 
 <h1>Countries</h1>
 <%= geo_chart Movie.group(:country_produced).count %>

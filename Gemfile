@@ -33,6 +33,7 @@ gem 'spring',        group: :development
 gem 'simple_form'
 gem 'devise'
 gem "chartkick"
+gem "font-awesome-rails"
 
 gem 'rails_12factor', group: :production
 

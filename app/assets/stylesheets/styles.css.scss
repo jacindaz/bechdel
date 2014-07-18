@@ -17,6 +17,12 @@ body {
   padding-bottom: 20px;
 }
 
+.search-bar {
+  background-color: none;
+  color: black;
+  position: relative;
+}
+
 div.container {
   @include outer-container;
 }
