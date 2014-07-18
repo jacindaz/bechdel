@@ -25,6 +25,7 @@ class MoviesController < ApplicationController
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
     @bechdel_info = Bechdel.find_by_movie_id(params[:id])
+    @cannes_info = Canne.find_by_movie_id(params[:id])
   end
 
   def new

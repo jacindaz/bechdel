@@ -8,11 +8,25 @@
   <li>Year: <%= @movie.year %></li>
   <li>Language: <%= @movie.language %></li>
   <li>Country produced: <%= @movie.country_produced %></li>
+  <% if !@cannes_info.nil? %>
+  <li>This film was selected for the
+    <a href="<%= @cannes_info.cannes_url %>" target="_blank">
+    Cannes Film Festival</a>
+  </li>
+  <% end %>
 </ul>
 
 <br>
 <h4 class="sub-header">SUMMARY</h4>
 <p><%= @movie.summary %></p>
+<% if !@cannes_info.nil? %>
+  <p>
+    Read more about this movie on the
+    <a href="<%= @cannes_info.cannes_url %>" target="_blank">
+      Cannes Film Festival
+    </a>, website.
+  </p>
+<% end %>
 
 <hr>
 <h2>What does BechdelTest.com say?</h2>
