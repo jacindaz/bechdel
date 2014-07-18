@@ -80,11 +80,11 @@ class CannesScraping
     combined_information
   end
 
-  def save_cannes_movies
+  def save_cannes_movies(all_movies)
     puts nil
     puts "============================================="
     puts "Entering save Cannes movies to movies table"
-    cannes_info = all_movie_info
+    cannes_info = all_movies
     puts "This is all the cannes info: #{cannes_info}"
     cannes_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:title])
@@ -102,17 +102,19 @@ class CannesScraping
     end
   end
 
-  def save_cannes_info
+  def save_cannes_info(all_movies)
     puts nil
     puts "============================================="
     puts "Entering rows into Cannes table"
-    cannes_info = all_movie_info
+    cannes_info = all_movies
     cannes_info.each do |movie|
       current_movie = Movie.find_by_title(movie[:title])
 
-      binding.pry
+      if current_movie.nil?
+        binding.pry
+      end
 
-      canne_object = Canne.create(cannes_url: movie[:cannes_url], movie_id: current_movie)
+      canne_object = Canne.create(cannes_url: movie[:cannes_url], movie_id: current_movie.id)
       puts "This is the canne object url: #{canne_object.movie_id}"
       puts "============================================="
       puts nil
@@ -120,11 +122,12 @@ class CannesScraping
   end
 
   def scrape_and_save
+    all_movie_information = all_movie_info
     puts "Begin scraping"
-    save_cannes_movies
+    save_cannes_movies(all_movie_information)
     puts "Done scraping and saving movies"
     puts "=============================================", nil
-    save_cannes_info
+    save_cannes_info(all_movie_information)
     puts "Done scraping and saving cannes info"
   end
 

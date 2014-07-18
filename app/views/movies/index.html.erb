@@ -9,8 +9,8 @@
 
     </div>
     <div class="card-header">
-      <%= link_to movie.title, movie_path(movie) %><br>
-      <%= movie.year %>
+      <h5 class="headers-refills-font"><%= link_to movie.title, movie_path(movie) %><br>
+      <%= movie.year %></h5>
     </div>
     <div class="card-copy">
       <p>
@@ -22,8 +22,7 @@
     </div>
     <div class="card-stats" style="position: absolute; bottom:0;">
       <ul>
-        <li><%= movie.language %></li>
-        <li><%= movie.country_produced %></li>
+        <li><center><%= movie.country_produced %></center></li>
       </ul>
     </div>
   </div>

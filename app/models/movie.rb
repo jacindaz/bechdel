@@ -11,7 +11,7 @@ class Movie < ActiveRecord::Base
   validates :year, presence: true, inclusion: { in: 1900..2014 }
   validates :summary, presence: true, length: {
       minimum: 5,
-      maximum: 200,
+      maximum: 500,
       tokenizer: lambda { |str| str.scan(/\w+/) },
       too_short: "Must have at least %{count} words.",
       too_long: "Must have less than %{count} words."
