@@ -90,8 +90,9 @@ class CannesScraping
       movie_in_db = Movie.find_by_title(movie[:title])
       if movie_in_db.nil?
         binding.pry
-        canne_object = Canne.create!(cannes_url: movie[:cannes_url])
-        Movie.create!(title: movie[:title],
+        Canne.create(cannes_url: movie[:cannes_url])
+        canne_object = Canne.all.last
+        Movie.create(title: movie[:title],
                       year: movie[:year],
                       summary: movie[:summary],
                       language: movie[:language],
@@ -102,6 +103,8 @@ class CannesScraping
       elsif !movie_in_db.nil?
         if movie_in_db.cannes_id.nil?
           Canne.create(cannes_url: movie[:cannes_url])
+          canne_object = Canne.all.last
+          movie_in_db.update(cannes_url: canne_object.id)
         else
           canne_object = Canne.find(movie_in_db.cannes_id)
           canne_object.update(cannes_url: movie[:cannes_url])
