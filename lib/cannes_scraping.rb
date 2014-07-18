@@ -110,6 +110,7 @@ class CannesScraping
       current_movie = Movie.find_by_title(movie[:title])
       find_cannes_row = Canne.find_by_movie_id(current_movie.id)
       if find_cannes_row.nil?
+        puts "Entering info for #{current_movie.title}, with id of #{current_movie.id}"
         canne_object = Canne.create(cannes_url: movie[:cannes_url], movie_id: current_movie.id)
         puts "This is the canne object url: #{canne_object.movie_id}"
         puts "============================================="
@@ -120,9 +121,9 @@ class CannesScraping
 
   def scrape_and_save
     all_movie_information = all_movie_info
-    puts "Begin scraping"
-    save_cannes_movies(all_movie_information)
-    puts "Done scraping and saving movies"
+    # puts "Begin scraping"
+    # save_cannes_movies(all_movie_information)
+    #puts "Done scraping and saving movies"
     puts "=============================================", nil
     save_cannes_info(all_movie_information)
     puts "Done scraping and saving cannes info"
