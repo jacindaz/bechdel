@@ -6,17 +6,17 @@ class MoviesController < ApplicationController
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     else
-      @movies = Movie.all.order("title ASC")
+      @movies = Movie.all.order(created_at: :desc)
     end
     @num_top_box_office_movies = 50
     Movie.movie_info(@num_top_box_office_movies)
-    @movies = Movie.all
-
+    @movies_by_created = Movie.all.order(created_at: :desc)
+    @movies_alphabetical = Movie.all.order(title: :desc)
   end
 
   def show
     @movie = Movie.find(params[:id])
-    if @movie.thumbnail_url.starts_with?("http")
+    if @movie.thumbnail_url.starts_with?("http://content8")
       @movie_poster = @movie.thumbnail_url
       @movie_poster["tmb"] = "org"
     else

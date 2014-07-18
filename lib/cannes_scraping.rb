@@ -56,11 +56,12 @@ class CannesScraping
     movie[:country_produced] = page.xpath('//dt[contains(text(), "Country:")]').first.next_element.text.strip.split(", ")[0].capitalize
     movie[:user_id] = user_id
 
-    partial_thumbnail_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')
+    partial_thumbnail_url = page.xpath('//img[contains(@src, "fiche_film_header")]')
     if !partial_thumbnail_url.empty?
-      complete_url = page.xpath('//img[contains(@alt, "Film\'s poster")]')[0].attributes["src"].value
+      complete_url = page.xpath('//img[contains(@src, "fiche_film_header")]')[0].attributes["src"].value
       movie[:thumbnail_url] = "http://www.festival-cannes.fr#{complete_url}"
     end
+
     puts "Done gathering, this is 1 movie's info: #{movie}"
     movie
   end
@@ -79,62 +80,52 @@ class CannesScraping
     combined_information
   end
 
-  def save_cannes
+  def save_cannes_movies
     puts nil
     puts "============================================="
-    puts "Entering save cannes movies to db method"
+    puts "Entering save Cannes movies to movies table"
     cannes_info = all_movie_info
     puts "This is all the cannes info: #{cannes_info}"
     cannes_info.each do |movie|
-
       movie_in_db = Movie.find_by_title(movie[:title])
       if movie_in_db.nil?
         binding.pry
-        Canne.create(cannes_url: movie[:cannes_url])
-        canne_object = Canne.all.last
-        Movie.create(title: movie[:title],
+        saved_movie = Movie.create(title: movie[:title],
                       year: movie[:year],
                       summary: movie[:summary],
                       language: movie[:language],
                       country_produced: movie[:country_produced],
                       user_id: movie[:user_id],
-                      cannes_id: canne_object.id,
                       thumbnail_url: movie[:thumbnail_url])
-      elsif !movie_in_db.nil?
-        if movie_in_db.cannes_id.nil?
-          Canne.create(cannes_url: movie[:cannes_url])
-          canne_object = Canne.all.last
-          movie_in_db.update(cannes_url: canne_object.id)
-        else
-          canne_object = Canne.find(movie_in_db.cannes_id)
-          canne_object.update(cannes_url: movie[:cannes_url])
-        end
+        puts "Saved movie to db: #{Movie.all.last}"
       end
     end
   end
 
+  def save_cannes_info
+    puts nil
+    puts "============================================="
+    puts "Entering rows into Cannes table"
+    cannes_info = all_movie_info
+    cannes_info.each do |movie|
+      current_movie = Movie.find_by_title(movie[:title])
+
+      binding.pry
+
+      canne_object = Canne.create(cannes_url: movie[:cannes_url], movie_id: current_movie)
+      puts "This is the canne object url: #{canne_object.movie_id}"
+      puts "============================================="
+      puts nil
+    end
+  end
+
+  def scrape_and_save
+    puts "Begin scraping"
+    save_cannes_movies
+    puts "Done scraping and saving movies"
+    puts "=============================================", nil
+    save_cannes_info
+    puts "Done scraping and saving cannes info"
+  end
+
 end
-
-# create_table "cannes", force: true do |t|
-#   t.string   "cannes_url", null: false
-#   t.integer  "movie_id",   null: false
-#   t.datetime "created_at"
-#   t.datetime "updated_at"
-# end
-
-
-# create_table "movies", force: true do |t|
-#     t.string   "title",                                      null: false
-#     t.integer  "year",                                       null: false
-#     t.text     "summary",                                    null: false
-#     t.string   "language",                                   null: false
-#     t.string   "country_produced",                           null: false
-#     t.string   "bechdel_rating",   default: "no rating",     null: false
-#     t.integer  "user_id",                                    null: false
-#     t.datetime "created_at"
-#     t.datetime "updated_at"
-#     t.integer  "up_votes",         default: 0,               null: false
-#     t.integer  "down_votes",       default: 0,               null: false
-#     t.string   "thumbnail_url",    default: "no-image.jpeg"
-#     t.integer  "cannes_id"
-#   end

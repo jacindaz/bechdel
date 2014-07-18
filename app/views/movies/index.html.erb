@@ -15,7 +15,7 @@
     <div class="card-copy">
       <p>
         <span style="float:left; padding-right:15px;">
-          <%= image_tag "#{movie.thumbnail_url}", alt: "Movie poster image" %>
+          <%= image_tag "#{movie.thumbnail_url}", alt: "Movie poster image", width: 54 %>
         </span>
         <%= truncate movie.summary, length: 140, separator: ' ' %>
       </p>
