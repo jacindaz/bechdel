@@ -10,3 +10,7 @@
 
 <h1>How many passed 1, 2, 3 tests?</h1>
 <%= pie_chart Bechdel.group(:passing_tests).count %>
+
+
+<h1>Countries</h1>
+<%= geo_chart Movie.group(:country_produced).count %>

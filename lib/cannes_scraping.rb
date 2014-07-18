@@ -89,7 +89,6 @@ class CannesScraping
     cannes_info.each do |movie|
       movie_in_db = Movie.find_by_title(movie[:title])
       if movie_in_db.nil?
-        binding.pry
         saved_movie = Movie.create(title: movie[:title],
                       year: movie[:year],
                       summary: movie[:summary],
@@ -109,10 +108,6 @@ class CannesScraping
     cannes_info = all_movies
     cannes_info.each do |movie|
       current_movie = Movie.find_by_title(movie[:title])
-
-      if current_movie.nil?
-        binding.pry
-      end
 
       canne_object = Canne.create(cannes_url: movie[:cannes_url], movie_id: current_movie.id)
       puts "This is the canne object url: #{canne_object.movie_id}"
