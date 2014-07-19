@@ -141,7 +141,6 @@ class CannesScraping
     puts "=============================================", nil
     save_cannes_info(all_movie_information)
     puts "Done scraping and saving cannes info"
-    #puts "Added a total of #{} movies and #{} cannes movie urls"
     puts "=============================================", nil
   end
 
