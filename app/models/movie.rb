@@ -6,6 +6,7 @@ class Movie < ActiveRecord::Base
   belongs_to :user
   belongs_to :bechdel
   belongs_to :canne
+  belongs_to :category
 
   validates :title, presence: true, uniqueness: { scope: :year }
   validates :year, presence: true, inclusion: { in: 1900..2014 }
@@ -48,34 +49,42 @@ class Movie < ActiveRecord::Base
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
   end
 
-  def self.movie_info(num_movies, box_office_or_rentals)
-    if box_office_or_rentals == "box"
-      movies_hash = self.box_office(num_movies)
-    elsif box_office_or_rentals == "rentals"
-      movies_hash = self.box_office(num_movies)
+  def self.movie_category(num_movies, category)
+    case category
+    when "box_office"
+      movies_hash = Movie.box_office(num_movies)
+    when "rentals"
+      movies_hash = Movie.top_rentals(num_movies)
     end
+    movies_hash
+  end
 
+  def self.movie_info(num_movies, category)
+    api_info = Movie.movie_category(num_movies, category)
     movie_info = []
-    movies_hash["movies"].each do |rt_movie|
+    api_info["movies"].each do |rt_movie|
       new_movie = {}
       new_movie[:title] = rt_movie["title"]
       new_movie[:year] = rt_movie["year"]
       new_movie[:summary] = rt_movie["synopsis"]
       new_movie[:language] = "English"
       new_movie[:country_produced] = "United States"
-      new_movie[:thumbnail_url] = rt_movie["posters"]["thumbnail"]
+      thumbnail = rt_movie["posters"]["thumbnail"]
+      thumbnail["tmb"] = "org"
+      new_movie[:thumbnail_url] = thumbnail
       movie_info << new_movie
     end
-    Movie.update_database(movie_info)
+    Movie.update_database(movie_info, category)
     movie_info
   end
 
-  def self.update_database(array_of_hashes)
+  def self.update_database(array_of_hashes, category)
     array_of_hashes.each do |hash|
       if !Movie.movie_exists?(hash)
-        Movie.create(title: hash[:title], year: hash[:year], summary: hash[:summary],
+        saved_movie = Movie.create(title: hash[:title], year: hash[:year], summary: hash[:summary],
                     language: hash[:language], country_produced: hash[:country_produced],
                     user_id: 2, thumbnail_url: hash[:thumbnail_url])
+        Category.create(movie_id: saved_movie.id, category: category)
       end
     end
   end

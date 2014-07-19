@@ -6,11 +6,9 @@ class MoviesController < ApplicationController
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     elsif !params[:sort_by].nil?
-      if params[:sort_by] == "box_office"
-        @movies = Movie.
-      elsif params[:sort_by] == "rentals"
-
-      end
+      Movie.movie_info(50, params[:sort_by])
+      @movies = Category.where(category: params[:sort_by]).movies
+      binding.pry
     else
       @movies = Movie.all.order(title: :desc)
     end

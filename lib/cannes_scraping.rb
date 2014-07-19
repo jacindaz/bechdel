@@ -123,9 +123,9 @@ class CannesScraping
 
   def scrape_and_save
     all_movie_information = all_movie_info
-    # puts "Begin scraping"
-    # save_cannes_movies(all_movie_information)
-    #puts "Done scraping and saving movies"
+    puts "Begin scraping"
+    save_cannes_movies(all_movie_information)
+    puts "Done scraping and saving movies"
     puts "=============================================", nil
     save_cannes_info(all_movie_information)
     puts "Done scraping and saving cannes info"
