@@ -5,7 +5,4 @@ class Bechdel < ActiveRecord::Base
   validates :passing_tests, presence: true
   validates :tests_explanation, presence: true
   validates :bechdel_url, presence: true
-
-  after_save :update_movie_object
-
 end
