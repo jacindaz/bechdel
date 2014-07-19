@@ -35,6 +35,16 @@ class Movie < ActiveRecord::Base
     self.save
   end
 
+  def self.return_movies(num_movies, category)
+    Movie.movie_info(num_movies, category)
+    movie_categories = Category.where(category: category)
+    movies_by_category = []
+    movie_categories.each do |movie|
+      movies_by_category << Movie.find(movie.movie_id)
+    end
+    movies_by_category
+  end
+
   def self.search(query)
     where('title ILIKE ?', "%#{query}%")
   end
@@ -75,7 +85,6 @@ class Movie < ActiveRecord::Base
       movie_info << new_movie
     end
     Movie.update_database(movie_info, category)
-    movie_info
   end
 
   def self.update_database(array_of_hashes, category)

@@ -6,9 +6,7 @@ class MoviesController < ApplicationController
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     elsif !params[:sort_by].nil?
-      Movie.movie_info(50, params[:sort_by])
-      @movies = Category.where(category: params[:sort_by]).movies
-      binding.pry
+      @movies = Movie.return_movies(50, params[:sort_by])
     else
       @movies = Movie.all.order(title: :desc)
     end
