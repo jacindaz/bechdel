@@ -94,6 +94,10 @@ class Movie < ActiveRecord::Base
                     language: hash[:language], country_produced: hash[:country_produced],
                     user_id: 2, thumbnail_url: hash[:thumbnail_url])
         Category.create(movie_id: saved_movie.id, category: category)
+      elsif Movie.movie_exists?(hash)
+        #binding.pry
+        existing_movie = Movie.find_by_title(hash[:title])
+        Category.where(category: category, movie_id: existing_movie.id).first_or_create
       end
     end
   end

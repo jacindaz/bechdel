@@ -8,14 +8,11 @@ class MoviesController < ApplicationController
     elsif !params[:sort_by].nil?
       @movies = Movie.return_movies(50, params[:sort_by])
     else
-      @movies = Movie.all.order(title: :desc)
+      @movies = Movie.all.order(title: :asc)
     end
-
-    #Movie.movie_info(@num_top_box_office_movies, "box")
   end
 
   def show
-    #binding.pry
     @movie = Movie.find(params[:id])
     if @movie.thumbnail_url.starts_with?("http://content8")
       @movie_poster = @movie.thumbnail_url
