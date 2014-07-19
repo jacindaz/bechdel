@@ -8,11 +8,24 @@
 </head>
 <body>
 
+<div class="nav-header search-bar">
+  <logo>
+    <h1 class="header-title">The Bechdel Test</h1>
+  </logo>
+  <searchbar>
 
-<h1 class="header-title">The Bechdel Test</h1>
+    <% if user_signed_in? %>
+      <%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: "sign-up" %>
+    <% elsif current_user.nil? %>
+      <%= link_to 'Register', new_user_registration_path, class: "sign-up" %>
+      <%= link_to 'Login', new_user_session_path, class: "sign-up" %>
+    <% end %>
+  </searchbar>
+</div>
 
 <%= render partial: "refills/navigation" %>
 <br>
+
 <% if flash.present? %>
   <h2 style="color: purple;font-style: italic;">
     <%= flash[:notice] %>

@@ -95,9 +95,11 @@ class CannesScraping
                       language: movie[:language],
                       country_produced: movie[:country_produced],
                       user_id: movie[:user_id],
-                      thumbnail_url: movie[:thumbnail_url])
+                      thumbnail_url: movie[:thumbnail_url],)
         puts "Saved movie to db: #{Movie.all.last}"
       end
+      saved_category = Category.create(movie_id: saved_movie.id, category: "Cannes")
+      puts "Saving movie category: #{saved_category}"
     end
   end
 

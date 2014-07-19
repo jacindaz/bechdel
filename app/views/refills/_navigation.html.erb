@@ -4,18 +4,18 @@
     <div class="nav">
       <ul id="navigation-menu" style="margin-left: 20px;">
         <li class="nav-link">
-          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
-        </li>
-        <li class="nav-link">
-          <%= link_to "Add a Movie", new_movie_path, onclick: "javascript:void(0)" %>
-        </li>
-        <li class="nav-link">
           <%= link_to "Bechdel Test", bechdel_index_path, onclick: "javascript:void(0)" %>
         </li>
         <li class="nav-link">
-          <%= link_to "Bechdel Test Stats", analytics_path, onclick: "javascript:void(0)" %>
+          <%= link_to "Analytics", analytics_path, onclick: "javascript:void(0)" %>
         </li>
-
+        <li class="nav-link more">
+          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
+          <ul class="submenu">
+            <li><%= link_to "Top Box Office", movies_path(sort_by: :box_office) %></li>
+            <li><%= link_to "Top Rentals", movies_path(sort_by: :rentals) %></li>
+          </ul>
+        </li>
       </ul>
     </div>
     <div class="navigation-tools">

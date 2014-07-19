@@ -38,13 +38,23 @@ class Movie < ActiveRecord::Base
     where('title ILIKE ?', "%#{query}%")
   end
 
+  def self.top_rentals(num_movies)
+    key = ENV["ROTTEN_TOMATOES_KEY"]
+    JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=#{key}&limit=#{num_movies}").read)
+  end
+
   def self.box_office(num_movies)
     key = ENV["ROTTEN_TOMATOES_KEY"]
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
   end
 
-  def self.movie_info(num_movies)
-    movies_hash = self.box_office(num_movies)
+  def self.movie_info(num_movies, box_office_or_rentals)
+    if box_office_or_rentals == "box"
+      movies_hash = self.box_office(num_movies)
+    elsif box_office_or_rentals == "rentals"
+      movies_hash = self.box_office(num_movies)
+    end
+
     movie_info = []
     movies_hash["movies"].each do |rt_movie|
       new_movie = {}

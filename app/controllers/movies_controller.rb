@@ -5,13 +5,17 @@ class MoviesController < ApplicationController
   def index
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
+    elsif !params[:sort_by].nil?
+      if params[:sort_by] == "box_office"
+        @movies = Movie.
+      elsif params[:sort_by] == "rentals"
+
+      end
     else
-      @movies = Movie.all.order(created_at: :desc)
+      @movies = Movie.all.order(title: :desc)
     end
-    @num_top_box_office_movies = 50
-    Movie.movie_info(@num_top_box_office_movies)
-    @movies_by_created = Movie.all.order(created_at: :desc)
-    @movies_alphabetical = Movie.all.order(title: :desc)
+
+    #Movie.movie_info(@num_top_box_office_movies, "box")
   end
 
   def show
