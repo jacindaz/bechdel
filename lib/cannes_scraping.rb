@@ -98,9 +98,18 @@ class CannesScraping
                       thumbnail_url: movie[:thumbnail_url],)
         puts "Saved movie to db: #{Movie.all.last}"
       end
-      saved_category = Category.create(movie_id: saved_movie.id, category: "Cannes")
-      puts "Saving movie category: #{saved_category}"
     end
+  end
+
+  def add_category
+    movies = Movie.where(language: "Unknown")
+    counter = 0
+    movies.each do |movie|
+      Category.create(movie_id: movie.id, category: "Cannes")
+      counter += 1
+    end
+    puts "I've added #{counter} categories in total......"
+    puts "=============================================", nil
   end
 
   def save_cannes_info(all_movies)
@@ -127,8 +136,13 @@ class CannesScraping
     save_cannes_movies(all_movie_information)
     puts "Done scraping and saving movies"
     puts "=============================================", nil
+    add_category
+    puts "Done adding category Cannes to movies"
+    puts "=============================================", nil
     save_cannes_info(all_movie_information)
     puts "Done scraping and saving cannes info"
+    #puts "Added a total of #{} movies and #{} cannes movie urls"
+    puts "=============================================", nil
   end
 
 end

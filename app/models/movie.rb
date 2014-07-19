@@ -36,7 +36,7 @@ class Movie < ActiveRecord::Base
   end
 
   def self.return_movies(num_movies, category)
-    Movie.movie_info(num_movies, category)
+    Movie.movie_info(num_movies, category) if category != "Cannes"
     movie_categories = Category.where(category: category)
     movies_by_category = []
     movie_categories.each do |movie|
