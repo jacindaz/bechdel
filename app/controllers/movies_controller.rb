@@ -15,6 +15,7 @@ class MoviesController < ApplicationController
   end
 
   def show
+    #binding.pry
     @movie = Movie.find(params[:id])
     if @movie.thumbnail_url.starts_with?("http://content8")
       @movie_poster = @movie.thumbnail_url
