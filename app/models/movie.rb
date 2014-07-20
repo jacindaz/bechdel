@@ -22,6 +22,8 @@ class Movie < ActiveRecord::Base
   validates :user_id, presence: true
   validates :thumbnail_url, presence: true
 
+  self.per_page = 12
+
   def user_already_voted?(user_id, movie_id)
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?
   end
