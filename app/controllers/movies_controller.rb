@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
     # else
     #   @movies = Movie.all.order(title: :asc)
     # end
-    @movies = Movie.all.paginate(page: params[:page])
+    @movies = Movie.all.paginate(page: params[:page]).order(title: :asc)
   end
 
   def show
