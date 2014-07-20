@@ -1,0 +1,15 @@
+<div class="page-header">
+    <h1>Movies with AJAX button</h1>
+</div>
+
+<div id="my-posts">
+    <%= render @movies %>
+</div>
+
+<div id="with-button">
+    <%= will_paginate %>
+</div>
+
+<% if @movies.next_page %>
+    <div id="load_more_posts">More posts</div>
+<% end %>

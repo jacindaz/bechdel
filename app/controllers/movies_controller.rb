@@ -3,14 +3,13 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    # if params[:search]
-    #   @movies = Movie.search(params[:search]).order("title ASC")
-    # elsif !params[:sort_by].nil?
-    #   @movies = Movie.return_movies(50, params[:sort_by])
-    # else
-    #   @movies = Movie.all.order(title: :asc)
-    # end
-    @movies = Movie.all.paginate(page: params[:page]).order(title: :asc)
+    if params[:search]
+      @movies = Movie.search(params[:search]).order("title ASC")
+    elsif !params[:sort_by].nil?
+      @movies = Movie.return_movies(15, params[:sort_by]).paginate(page: params[:page])
+    else
+      infinite_scroll_movies
+    end
   end
 
   def show
@@ -47,6 +46,14 @@ class MoviesController < ApplicationController
   private
   def movie_params
     params.require(:movie).permit(:title, :year, :summary, :language, :country_produced)
+  end
+
+  def infinite_scroll_movies
+    @movies = Movie.all.paginate(page: params[:page]).order(title: :asc)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
 end
