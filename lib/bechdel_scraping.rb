@@ -3,7 +3,7 @@ class BechdelScraping
   attr_reader :homepage
 
   def initialize
-    @homepage = Nokogiri::HTML(open("http://bechdeltest.com/?page=1"))
+    @homepage = Nokogiri::HTML(open("http://bechdeltest.com"))
   end
 
   def get_page(url)
