@@ -46,7 +46,18 @@ class Movie < ActiveRecord::Base
     self.save
   end
 
+  def self.return_bechdel_movies
+    movies_with_bechdel = []
+    Bechdel.all.each do |movie|
+      movies_with_bechdel << Movie.find(movie.movie_id)
+    end
+    movies_with_bechdel
+  end
+
   def self.return_movies(num_movies, category)
+    if category == "bechdel_reviews"
+      return Movie.return_bechdel_movies
+    end
     Movie.movie_info(num_movies, category) if category != "Cannes"
     movie_categories = Category.where(category: category)
     movies_by_category = []
@@ -105,7 +116,6 @@ class Movie < ActiveRecord::Base
                     user_id: 2, thumbnail_url: hash[:thumbnail_url])
         Category.create(movie_id: saved_movie.id, category: category)
       elsif Movie.movie_exists?(hash)
-        #binding.pry
         existing_movie = Movie.find_by_title(hash[:title])
         Category.where(category: category, movie_id: existing_movie.id).first_or_create
       end
