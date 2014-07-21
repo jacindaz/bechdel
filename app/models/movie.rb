@@ -91,8 +91,7 @@ class Movie < ActiveRecord::Base
       new_movie[:language] = "English"
       new_movie[:country_produced] = "United States"
       thumbnail = rt_movie["posters"]["thumbnail"]
-      thumbnail["tmb"] = "org"
-      new_movie[:thumbnail_url] = thumbnail
+      new_movie[:thumbnail_url] = thumbnail.sub("tmb", "org")
       movie_info << new_movie
     end
     Movie.update_database(movie_info, category)
