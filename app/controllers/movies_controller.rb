@@ -21,6 +21,9 @@ class MoviesController < ApplicationController
     @comment = Comment.new
     @bechdel_info = Bechdel.find_by_movie_id(params[:id])
     @cannes_info = Canne.find_by_movie_id(params[:id])
+
+    @up_votes = @movie.up_votes.floor
+    @down_votes = @movie.down_votes.floor
   end
 
   def new

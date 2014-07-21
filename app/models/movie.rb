@@ -30,6 +30,8 @@ class Movie < ActiveRecord::Base
       return "Top DVD Rentals"
     when "Cannes"
       return "Selected by the Cannes Film Festival"
+    when "bechdel_reviews"
+      return "Movies with Bechdel Test ratings"
     end
   end
 

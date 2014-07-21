@@ -38,6 +38,7 @@
 <% else %>
   <p>Unfortunately bechdeltest.com doesn't have ratings for this movie. Please vote or comment below!</p>
 <% end %>
+<hr>
 
 <div class="container">
   <div class="element">
@@ -65,7 +66,7 @@
   <br>
   <p>No one has voted yet, please vote!</p>
 <% else %>
-  <%= bar_chart({ Pass: @movie.up_votes, Not: @movie.down_votes}) %>
+  <%= bar_chart({ Pass: @up_votes, Not: @down_votes}) %>
 <% end %>
 
 <hr>
