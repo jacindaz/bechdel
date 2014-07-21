@@ -28,5 +28,7 @@
 <% end %>
 </div>
 
-<%= will_paginate @movies %>
+<% if params[:search].nil? %>
+  <%= will_paginate @movies %>
+<% end %>
 <br>
