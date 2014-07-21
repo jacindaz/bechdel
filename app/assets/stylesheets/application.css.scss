@@ -24,3 +24,8 @@
 @import "refills/footer";
 @import "font";
 @import "styles";
+
+#load_more_movies {
+    display: none;
+    margin-bottom: 10px; /* Some margin to separate it from the footer */
+}

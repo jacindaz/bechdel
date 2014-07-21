@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require jquery.history.js
 //= require jsapi
+//= require waypoints
+//= require pagination
 //= require chartkick
-//= require_tree .
-

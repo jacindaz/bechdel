@@ -8,8 +8,13 @@ class MoviesController < ApplicationController
     elsif !params[:sort_by].nil?
       @movies = Movie.return_movies(15, params[:sort_by]).paginate(page: params[:page])
     else
-      infinite_scroll_movies
+      get_and_show_movies
     end
+  end
+
+  def index_with_button
+    get_and_show_movies
+    #binding.pry
   end
 
   def show
@@ -48,8 +53,9 @@ class MoviesController < ApplicationController
     params.require(:movie).permit(:title, :year, :summary, :language, :country_produced)
   end
 
-  def infinite_scroll_movies
-    @movies = Movie.all.paginate(page: params[:page]).order(title: :asc)
+  def get_and_show_movies
+    @movies = Movie.paginate(page: params[:page], per_page: 12).order(title: :asc)
+
     respond_to do |format|
       format.html
       format.js

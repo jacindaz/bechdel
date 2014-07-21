@@ -1,15 +1,20 @@
 <div class="page-header">
-    <h1>Movies with AJAX button</h1>
+  <h1>Movies with ajax button</h1>
+</div>
+
+<div id="static-pagination">
+  <%= will_paginate %>
 </div>
 
 <div id="my-posts">
-    <%= render @movies %>
-</div>
-
-<div id="with-button">
-    <%= will_paginate %>
+  <div class="page-delimiter first-page" data-page="<%= params[:page] || 1 %>"></div>
+  <%= render partial: @movies %>
 </div>
 
 <% if @movies.next_page %>
-    <div id="load_more_posts">More posts</div>
+    <div id="with-button">
+      <%= will_paginate %>
+    </div>
+
+    <div id="load_more_movies">More movies</div>
 <% end %>

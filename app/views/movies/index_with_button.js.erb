@@ -1,0 +1,7 @@
+$('#my-movies').append('<%= j render @movies %>');
+<% if @movies.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate @movies %>');
+    $('.pagination').hide();
+<% else %>
+    $('.pagination, #load_more_movies').remove();
+<% end %>
