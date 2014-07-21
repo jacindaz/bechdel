@@ -22,6 +22,17 @@ class Movie < ActiveRecord::Base
   validates :user_id, presence: true
   validates :thumbnail_url, presence: true
 
+  def self.return_index_title(params_title)
+    case params_title
+    when "box_office"
+      return "Top Box Office"
+    when "rentals"
+      return "Top DVD Rentals"
+    when "Cannes"
+      return "Selected by the Cannes Film Festival"
+    end
+  end
+
   def user_already_voted?(user_id, movie_id)
     return Vote.find_by_user_id_and_movie_id(user_id, movie_id).present?
   end
