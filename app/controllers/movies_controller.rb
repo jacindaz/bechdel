@@ -16,12 +16,6 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
-    if @movie.thumbnail_url.starts_with?("http://content8")
-      @movie_poster = @movie.thumbnail_url
-      @movie_poster["tmb"] = "org"
-    else
-      @movie_poster = @movie.thumbnail_url
-    end
     @user_voted = @movie.user_already_voted?(current_user, @movie.id)
     @comment = Comment.new
     @bechdel_info = Bechdel.find_by_movie_id(params[:id])
