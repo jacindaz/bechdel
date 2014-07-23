@@ -16,21 +16,6 @@ ActiveRecord::Schema.define(version: 20140718235325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "actresses", force: true do |t|
-    t.string   "name",       null: false
-    t.integer  "movies_id",  null: false
-    t.string   "gender",     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "actresses_movies", force: true do |t|
-    t.integer  "movie_id",   null: false
-    t.integer  "actress_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "bechdels", force: true do |t|
     t.string   "bechdel_url"
     t.string   "imdb_url"

@@ -3,10 +3,11 @@ require_relative 'bechdel'
 class Movie < ActiveRecord::Base
   has_many :votes
   has_many :comments
+  has_many :categories
+
   belongs_to :user
   belongs_to :bechdel
   belongs_to :canne
-  belongs_to :category
 
   validates :title, presence: true, uniqueness: { scope: :year }
   validates :year, presence: true, inclusion: { in: 1900..2014 }
@@ -31,7 +32,7 @@ class Movie < ActiveRecord::Base
     when "Cannes"
       return "Selected by the Cannes Film Festival"
     when "bechdel_reviews"
-      return "Movies with Bechdel Test ratings"
+      return "Movies with Bechdel Test Ratings"
     end
   end
 
