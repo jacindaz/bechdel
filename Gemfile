@@ -52,4 +52,4 @@ gem 'bitters'
 
 gem 'nokogiri', '~> 1.6.2.1'
 gem 'will_paginate', '~> 3.0.5'
-
+gem 'google-api-client'
