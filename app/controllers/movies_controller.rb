@@ -3,12 +3,9 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    #binding.pry
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     elsif !params[:sort_by].nil?
-      @movies2 = Movie.
-
       @movies = Movie.return_movies(50, params[:sort_by]).paginate(page: params[:page])
       @title = Movie.return_index_title(params[:sort_by])
     else
