@@ -6,8 +6,8 @@ class Movie < ActiveRecord::Base
   has_many :categories
 
   belongs_to :user
-  belongs_to :bechdel
-  belongs_to :canne
+  has_one :bechdel
+  has_one :canne
 
   validates :title, presence: true, uniqueness: { scope: :year }
   validates :year, presence: true, inclusion: { in: 1900..2014 }
