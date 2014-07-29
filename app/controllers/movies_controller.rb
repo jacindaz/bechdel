@@ -3,7 +3,6 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    #binding.pry
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     elsif !params[:sort_by].nil?

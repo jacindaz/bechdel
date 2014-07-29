@@ -25,7 +25,8 @@ class Movie < ActiveRecord::Base
 
   def self.return_index_title(params_title)
     case params_title
-    when "bechdel_reviews"
+    when "bechdel
+      "
       return "Movies with Bechdel Test Ratings"
     end
   end
@@ -51,27 +52,10 @@ class Movie < ActiveRecord::Base
     movies_with_bechdel
   end
 
-
-  def self.return_movies2(num_movies, category)
-    case category
-    when "bechdel"
-      return Movie.bechdel.all
-    when "box_office"
-      return Movie.category
-    end
-  end
-
   def self.return_movies(num_movies, category)
-    if category == "bechdel_reviews"
+    if category == "bechdel"
       return Movie.return_bechdel_movies
     end
-    Movie.movie_info(num_movies, category) if category != "Cannes"
-    movie_categories = Category.where(category: category)
-    movies_by_category = []
-    movie_categories.each do |movie|
-      movies_by_category << Movie.find(movie.movie_id)
-    end
-    movies_by_category
   end
 
   def self.search(query)
