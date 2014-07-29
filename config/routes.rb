@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   resources :bechdel, only: [:index]
   resources :analytics, only: [:index]
+  resources :categories, only: [:index]
 end

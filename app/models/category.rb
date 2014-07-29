@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  has_many :movies
+  belongs_to :movie
 
   validates :movie_id, presence: true, numericality: { integer: true }, uniqueness: { scope: :movie_id }
   validates :category, presence: true

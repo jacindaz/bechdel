@@ -7,8 +7,6 @@ class MoviesController < ApplicationController
     if params[:search]
       @movies = Movie.search(params[:search]).order("title ASC")
     elsif !params[:sort_by].nil?
-      @movies2 = Movie.
-
       @movies = Movie.return_movies(50, params[:sort_by]).paginate(page: params[:page])
       @title = Movie.return_index_title(params[:sort_by])
     else
