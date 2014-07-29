@@ -6,8 +6,6 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     @comment.movie = @movie
 
-    #binding.pry
-
     if @comment.save
       flash[:notice] = "Comment saved."
       redirect_to movie_path(@movie)

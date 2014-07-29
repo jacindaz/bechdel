@@ -13,9 +13,9 @@
           <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
           <ul class="submenu submenu-adjustments">
             <li><%= link_to "Bechdel Test Ratings", movies_path(sort_by: :bechdel) %></li>
-            <li><%= link_to "Top Box Office", movies_path(sort_by: :box_office) %></li>
-            <li><%= link_to "Top Rentals", movies_path(sort_by: :rentals) %></li>
-            <li><%= link_to "Cannes Film Festival", movies_path(sort_by: :canne) %></li>
+            <li><%= link_to "Top Box Office", categories_path(sort_by: :box_office) %></li>
+            <li><%= link_to "Top Rentals", categories_path(sort_by: :rentals) %></li>
+            <li><%= link_to "Cannes Film Festival", categories_path(sort_by: :Cannes) %></li>
           </ul>
         </li>
       </ul>
