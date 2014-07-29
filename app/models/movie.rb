@@ -57,6 +57,16 @@ class Movie < ActiveRecord::Base
     movies_with_bechdel
   end
 
+
+  def self.return_movies2(num_movies, category)
+    case category
+    when "bechdel"
+      return Movie.bechdel.all
+    when "box_office"
+      return Movie.category
+    end
+  end
+
   def self.return_movies(num_movies, category)
     if category == "bechdel_reviews"
       return Movie.return_bechdel_movies
