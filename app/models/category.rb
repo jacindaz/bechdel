@@ -8,6 +8,8 @@ class Category < ActiveRecord::Base
     case params_title
     when "box_office"
       return "Top Box Office"
+    when "box"
+      return "Top Box Office"
     when "rentals"
       return "Top DVD Rentals"
     when "Cannes"
