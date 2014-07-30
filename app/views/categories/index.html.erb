@@ -2,7 +2,9 @@
 
 <div class="cards">
 
-<% if !@categories.nil? %>
+<%= @categories %>
+
+<% if @categories %>
 
   <% @categories.each do |category| %>
     <div class="card" style="height: 240px;">
