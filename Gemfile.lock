@@ -100,6 +100,8 @@ GEM
     jquery-rails (3.1.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (5.0.0)
+      railties (>= 3.2.16)
     json (1.8.1)
     jwt (1.0.0)
     launchy (2.4.2)
@@ -235,6 +237,7 @@ DEPENDENCIES
   google-api-client
   jbuilder (~> 2.0)
   jquery-rails
+  jquery-ui-rails
   neat
   nokogiri (~> 1.6.2.1)
   pg

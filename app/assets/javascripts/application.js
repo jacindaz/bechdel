@@ -15,5 +15,6 @@
 //= require turbolinks
 //= require jsapi
 //= require chartkick
+//= require jquery-ui/autocomplete
 //= require_tree .
 
