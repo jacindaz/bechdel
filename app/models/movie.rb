@@ -25,8 +25,7 @@ class Movie < ActiveRecord::Base
 
   def self.return_index_title(params_title)
     case params_title
-    when "bechdel
-      "
+    when "bechdel"
       return "Movies with Bechdel Test Ratings"
     end
   end
