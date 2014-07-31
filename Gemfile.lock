@@ -34,6 +34,9 @@ GEM
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
     bcrypt (3.1.7)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     bitters (0.10.0)
       bourbon (>= 3.2)
       sass (>= 3.2)
@@ -225,6 +228,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  better_errors
   bitters
   bourbon
   capybara

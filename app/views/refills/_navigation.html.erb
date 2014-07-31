@@ -1,84 +1,3 @@
-<header class="navigation">
-  <div class="menu-wrapper">
-    <p class="navigation-menu-button" id="js-mobile-menu">MENU</p>
-    <div class="nav">
-      <ul id="navigation-menu" style="margin-left: 20px;">
-        <li class="nav-link" style="color:white; font-weight: 800;">
-          <%= link_to "Bechdel Test", bechdel_index_path, onclick: "javascript:void(0)" %>
-        </li>
-        <li class="nav-link">
-          <%= link_to "Analytics", analytics_path, onclick: "javascript:void(0)" %>
-        </li>
-        <li class="nav-link more">
-          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
-          <ul class="submenu submenu-adjustments">
-            <li><%= link_to "Bechdel Test Ratings", movies_path(sort_by: :bechdel) %></li>
-            <li><%= link_to "Top Rentals", categories_path(sort_by: :rentals) %></li>
-            <li><%= link_to "Cannes Film Festival", categories_path(sort_by: :Cannes) %></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-<script>
-  $(function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-  });
-  </script>
-
-<div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
-
-    <div class="navigation-tools">
-      <div class="search-bar">
-        <div class="search-and-submit ui-widget">
-          <%= form_tag(movies_path, method: "get", type: "search") do %>
-            <%= text_field_tag :search, params[:search], placeholder: "Search Happy",
-                input_html: { value: '', id: 'tags', for: 'tags'} %>
-            <button type="submit">
-            <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon.png" alt="">
-          </button>
-          <% end %>
-        </div>
-      </div>
-      <% if user_signed_in? %>
-        <%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: "sign-up" %>
-      <% elsif current_user.nil? %>
-        <%= link_to 'Register', new_user_registration_path, class: "sign-up" %>
-        <%= link_to 'Login', new_user_session_path, class: "sign-up" %>
-      <% end %>
-    </div>
-  </div>
-</header>
-
 <script>
   $(function() {
     var menu = $('#navigation-menu');
@@ -103,4 +22,87 @@
       $(".nav .more").removeClass("active-nav-item");
     });
   });
+
+  $(function() {
+
+ // Below is the name of the textfield that will be autocomplete
+    $('#autocomplete_search_field').autocomplete({
+ // This shows the min length of charcters that must be typed
+ // before the autocomplete looks for a match.
+            minLength: 2,
+ // This is the source of the auocomplete suggestions. In this case a list of
+ // names from the people controller, in JSON format.
+            source: '<%= movies_path(:json) %>',
+  // This updates the textfield when you move the updown the
+  // suggestions list, with your keyboard.
+  // In our case it will reflect the same value that you see in
+  // the suggestions which is the person.given_name.
+            focus: function(event, ui) {
+                $('#autocomplete_search_field').val(ui.item.movie.title);
+                return false;
+            },
+ // Once a value in the drop down list is selected, do the following:
+            select: function(event, ui) {
+ // place the person.given_name value into the textfield called 'select_origin'...
+                $('#autocomplete_search_field').val(ui.item.person.given_name);
+ // and place the person.id into the hidden textfield called 'link_origin_id'.
+        $('#link_origin_id').val(ui.item.person.id);
+                return false;
+            }
+        })
+ // The below code is straight from the jQuery example. It formats what data is
+ // displayed in the dropdown box, and can be customized.
+        .data( "autocomplete" )._renderItem = function( ul, item ) {
+            return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+ // For now which just want to show the person.given_name in the list.
+                .append( "<a>" + item.person.given_name + "</a>" )
+                .appendTo( ul );
+        };
+    });
 </script>
+
+
+<header class="navigation">
+  <div class="menu-wrapper">
+    <p class="navigation-menu-button" id="js-mobile-menu">MENU</p>
+    <div class="nav">
+      <ul id="navigation-menu" style="margin-left: 20px;">
+        <li class="nav-link" style="color:white; font-weight: 800;">
+          <%= link_to "Bechdel Test", bechdel_index_path, onclick: "javascript:void(0)" %>
+        </li>
+        <li class="nav-link">
+          <%= link_to "Analytics", analytics_path, onclick: "javascript:void(0)" %>
+        </li>
+        <li class="nav-link more">
+          <%= link_to "Movies", movies_path, onclick: "javascript:void(0)" %>
+          <ul class="submenu submenu-adjustments">
+            <li><%= link_to "Bechdel Test Ratings", movies_path(sort_by: :bechdel) %></li>
+            <li><%= link_to "Top Rentals", categories_path(sort_by: :rentals) %></li>
+            <li><%= link_to "Cannes Film Festival", categories_path(sort_by: :Cannes) %></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navigation-tools">
+      <div class="search-bar">
+        <div class="search-and-submit">
+          <% form_for(@movies) do |f| %>
+            <!-- This is the textfield that will autocomplete. What is displayed here is for the user to see but the data will not go anywhere -->
+            <input id="autocomplete_search_field"/>
+            <!-- This is the hidden textfield that will be given the Persons ID based on who is selected. This value will be sent as a parameter -->
+            <input id="link_origin_id" name="link[origin_id]" type="hidden"/>
+            <%= f.submit %>
+          <% end %>
+        </div>
+      </div>
+      <% if user_signed_in? %>
+        <%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: "sign-up" %>
+      <% elsif current_user.nil? %>
+        <%= link_to 'Register', new_user_registration_path, class: "sign-up" %>
+        <%= link_to 'Login', new_user_session_path, class: "sign-up" %>
+      <% end %>
+    </div>
+  </div>
+</header>
