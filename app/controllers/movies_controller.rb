@@ -4,12 +4,11 @@ class MoviesController < ApplicationController
 
   def index
     if params[:search]
-      @movies = Movie.search(params[:search]).order("title ASC")
+      #@movies = Movie.search(params[:search]).order("title ASC")
+      @movies = Movie.order(:title).where("title ILIKE ?", "#{params[:search]}%")
     elsif !params[:sort_by].nil?
       @movies = Movie.return_movies(50, params[:sort_by]).paginate(page: params[:page])
       @title = Movie.return_index_title(params[:sort_by])
-    elsif params[:term]
-      @movies = Movie.find(:all, :conditions => ['title LIKE ?', "%#{params[:term]}%"])
     else
       @movies = Movie.paginate(page: params[:page], per_page: 12).order(title: :asc)
       @title = "All Movies"
@@ -17,7 +16,7 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @movies.to_json }
+      format.json { json @movies }
     end
   end
 

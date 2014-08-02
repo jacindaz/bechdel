@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root to: 'movies#index'
 
   resources :movies, only: [:index, :show, :new, :create] do
+    collection do
+      get 'autocomplete'
+    end
     resources :votes, only: [:create, :update]
     resources :comments, only: [:create]
   end
