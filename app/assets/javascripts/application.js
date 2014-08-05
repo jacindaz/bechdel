@@ -18,13 +18,10 @@
 //= require jquery-ui/autocomplete
 //= require_tree .
 
-var ready;
-ready = (function() {
-  $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
-  $("#navbar-search-input").autocomplete({
-    source: '/movies/index.json',
-  });
-});
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
+$(document).ready(function() {
+  // overriding submit behavior
+  $("#search_form").submit(function() {
+    $.movie($(this).attr("action"), $(this).serialize(), null, "script");
+    return false;
+  })
+})

@@ -49,13 +49,11 @@
 
     <div class="navigation-tools">
       <div class="search-bar">
-        <div class="search-and-submit">
-          <%= form_tag(movies_path, method: "get", type: "search") do %>
-            <%= text_field_tag :search, params[:search], placeholder: "Search Happy" %>
-            <button type="submit">
-            <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon.png" alt="">
-          </button>
-          <% end %>
+        <div class="search-and-submit searcharea">
+          <form action="/movies" class="search_form" id="search_form" method="post">
+            <input type="search_form" name="search_form" id="search_form" placeholder="Search Happy" />
+            <input type="Submit">
+          </form>
         </div>
       </div>
       <% if user_signed_in? %>

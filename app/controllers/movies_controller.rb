@@ -3,10 +3,18 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
+    @movies = Movie.all
     if params[:search]
+      binding.pry
       #@movies = Movie.search(params[:search]).order("title ASC")
-      @movies = Movie.order(:title).where("title ILIKE ?", "#{params[:search]}%")
-    elsif !params[:sort_by].nil?
+      #@movies = Movie.order(params[:search]).where("title ILIKE ?", "#{params[:search]}%")
+      @movies = Movie.all
+      #@movies = Movie.all.where('title ILIKE ?', "%#{params[:search]}%")
+      respond_to do |format|
+        format.html
+        format.json { json @movies }
+      end
+    elsif params[:sort_by].present?
       @movies = Movie.return_movies(50, params[:sort_by]).paginate(page: params[:page])
       @title = Movie.return_index_title(params[:sort_by])
     else
@@ -14,10 +22,7 @@ class MoviesController < ApplicationController
       @title = "All Movies"
     end
 
-    respond_to do |format|
-      format.html
-      format.json { json @movies }
-    end
+
   end
 
   def show
