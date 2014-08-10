@@ -10,13 +10,18 @@ feature 'user views a list of movies' do
     end
 
     scenario 'user views a list of movies' do
-      movie = FactoryGirl.create(:movie)
+      movies = []
+      3.times do
+        movies << FactoryGirl.create(:movie)
+      end
       visit movies_path
 
-      expect(page).to have_content movie.title
-      expect(page).to have_content movie.year
-      expect(page).to have_content movie.summary
-      expect(page).to have_content movie.country_produced
+      movies.each do |movie|
+        expect(page).to have_content movie.title
+        expect(page).to have_content movie.year
+        expect(page).to have_content movie.summary
+        expect(page).to have_content movie.country_produced
+      end
     end
 
   end
