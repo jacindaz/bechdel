@@ -13,8 +13,6 @@ feature 'user writes a comment on a particular movie' do
       comment = FactoryGirl.build(:comment)
       visit movie_path(comment.movie)
 
-      binding.pry
-
       fill_in "comment_body", with: comment.body
       click_on "Submit"
       expect(page).to have_content "Comment saved."

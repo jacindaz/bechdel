@@ -1,14 +1,5 @@
 require 'rails_helper'
 
-#
-#     should have_valid(:summary).when("this is an example summary", "this is another example summary")
-#     should have_valid(:language)
-#     should have_valid(:country_produced)
-#     should have_valid(:thumbnail_url)
-#   end
-
-# end
-
 describe Movie do
 
   # associations
