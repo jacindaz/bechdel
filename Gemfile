@@ -1,8 +1,17 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+#ruby '2.1.1'
 
 group :development, :test do
   gem 'dotenv-rails'
+  gem 'shoulda-matchers', require: false
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'pry-rails'
+  gem 'valid_attribute'
+  gem 'pry-debugger'
+  gem 'pry-doc'
+  gem 'pry'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -36,13 +45,6 @@ gem "chartkick"
 gem "font-awesome-rails"
 
 gem 'rails_12factor', group: :production
-
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'capybara'
-  gem 'factory_girl_rails'
-  gem 'pry-rails'
-end
 
 #CSS Frameworks
 gem 'bourbon'
