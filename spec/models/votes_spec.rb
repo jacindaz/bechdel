@@ -12,22 +12,22 @@ describe Vote do
       in_array([-1, 1])
   end
 
-  it "should update movie votes when a vote is saved" do
-    @vote = FactoryGirl.build(:vote)
-    @movie = FactoryGirl.build(:movie)
+  it "updates movie up and down votes when saving vote" do
+    movie = FactoryGirl.create(:movie)
+    vote1 = FactoryGirl.create(:vote, vote: -1, movie_id: movie.id)
+    vote2 = FactoryGirl.create(:vote, vote: 1, movie_id: movie.id)
+    votes = [vote1, vote2]
 
-    @movie.save!
-    @vote.movie_id = @movie.id
-    @vote.save!
-
-    # failed attempt to test vote after_save callback
-    # @vote.run_callbacks(:save) { true }
-    # if @vote.vote == (-1)
-    #   expect(@movie.down_votes).to eq(1)
-    # elsif @vote.vote == (1)
-    #   expect(@movie.up_votes).to eq(1)
-    # end
-
+    votes.each do |vote|
+      vote.update_movie_votes
+      if vote.vote == (-1)
+        movie.update_votes("not")
+        expect(movie.down_votes).to eq(1)
+      elsif vote.vote == (1)
+        movie.update_votes("pass")
+        expect(movie.up_votes).to eq(1)
+      end
+    end
   end
 
 end
