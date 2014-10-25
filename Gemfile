@@ -1,9 +1,4 @@
-source 'https://rubygems.org'
-ruby '2.1.1'
-
-group :development, :test do
-  gem 'dotenv-rails'
-end
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
@@ -28,7 +23,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+# gem 'spring',        group: :development
 
 gem 'simple_form'
 gem 'devise'
@@ -40,8 +35,11 @@ gem 'rails_12factor', group: :production
 group :development, :test do
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'dotenv-rails'
+  gem 'shoulda-matchers', require: false
   gem 'factory_girl_rails'
-  gem 'pry-rails'
+  gem 'pry-nav'
+  gem 'valid_attribute'
 end
 
 #CSS Frameworks
@@ -52,4 +50,4 @@ gem 'bitters'
 
 gem 'nokogiri', '~> 1.6.2.1'
 gem 'will_paginate', '~> 3.0.5'
-gem 'google-api-client'
+# gem 'google-api-client'
