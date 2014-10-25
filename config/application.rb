@@ -13,7 +13,7 @@ require 'rubygems'
 require 'open-uri'
 require 'json'
 require 'nokogiri'
-require 'google/api_client'
+# require 'google/api_client'
 
 # require "rails/test_unit/railtie"
 
