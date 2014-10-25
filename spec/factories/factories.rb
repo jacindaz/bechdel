@@ -1,10 +1,5 @@
 FactoryGirl.define do
 
-  # sequence(:random_movie_year) do |n|
-  #   @year_array = (1900..2014).to_a.shuffle
-  #   @year_array[n]
-  # end
-
   factory :user do
     sequence(:username) {|n| "filmbuff#{n}"}
     sequence(:email) {|n| "jazz#{n}@movies.com"}

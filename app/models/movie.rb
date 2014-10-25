@@ -15,8 +15,8 @@ class Movie < ActiveRecord::Base
       minimum: 5,
       maximum: 500,
       tokenizer: lambda { |str| str.scan(/\w+/) },
-      too_short: "Must have at least %{count} words.",
-      too_long: "Must have less than %{count} words."
+      too_short: "is too short (minimum is 5 words)",
+      too_long: "is too short (minimum is 500 words)"
     }
   validates :language, presence: true
   validates :country_produced, presence: true
