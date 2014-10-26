@@ -22,6 +22,7 @@ class BechdelScraping
     encode_url = URI::encode("#{movie_url}")
     page = Nokogiri::HTML(get_page("#{encode_url}"))
     puts "Getting ready to scrape, here's the url: #{movie_url}"
+
     num_tests_pass = page.css('p')[0].children[0].text.strip
     explanation = page.css('h2')[0].children[0].attributes["title"].value
     explanation[0] = ""
@@ -30,11 +31,14 @@ class BechdelScraping
     movie_title = title.split(" -")[0]
     bechdel_website = { num_tests_pass: num_tests_pass,
                         explanation: explanation, movie_title: movie_title }
-    puts "====================================="
-    puts "Done scraping #{movie_url}"
-    puts "Here's the info: #{bechdel_website}"
-    puts "=====================================", nil
-    return bechdel_website
+    rescue
+      return false
+    else
+      puts "====================================="
+      puts "Done scraping #{movie_url}"
+      puts "Here's the info: #{bechdel_website}"
+      puts "=====================================", nil
+      return bechdel_website
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
@@ -62,10 +66,6 @@ class BechdelScraping
       end
     end
     movie_links.uniq!
-    #removes last 8 items, because there are more movie links than there are titles
-    8.times do
-      movie_links.pop
-    end
     return movie_links
   end
 
@@ -92,10 +92,12 @@ class BechdelScraping
     movies = []
     array_of_urls.each do |url|
       one_movie_hash = one_movie_bechdel_website(url)
-      one_movie_hash[:url] = url
-      puts "one movie's hash of info: #{one_movie_hash}"
-      puts "==========================================", nil
-      movies << one_movie_hash
+      if one_movie_hash
+        one_movie_hash[:url] = url
+        puts "one movie's hash of info: #{one_movie_hash}"
+        puts "==========================================", nil
+        movies << one_movie_hash
+      end
     end
     movies
   end
@@ -117,4 +119,3 @@ class BechdelScraping
   end
 
 end
-
