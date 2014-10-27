@@ -1,12 +1,26 @@
-<h1>Some Stats from BechdelTest.com</h1>
+<h1>Some Fun Statistics</h1>
 
 <br><br>
 
 <p class="analytics-subheader">Number of movies with ratings: <%= @movies_passed %></p>
+<p class="analytics-subheader">Number of movies: <%= Movie.all.count %></p>
 
 <hr>
-<h1>How many tests did it pass?</h1>
-<%= pie_chart ({"Passes 1 test" => @passed_1, "Passes 2 tests" => @passed_2, "Passes 3 tests" => @passed_3}) %>
-<hr>
-<h1>Which tests did it pass?</h1>
-<%= pie_chart Bechdel.group(:tests_explanation).count %>
+<center>
+
+  <h1>How Many Tests did it Pass?</h1>
+  <%= pie_chart ({"Passes 1 test" => @passed_1, "Passes 2 tests" => @passed_2, "Passes 3 tests" => @passed_3}) %>
+  <br><br>
+
+  <h1>Which Tests did it Pass?</h1>
+  <%= pie_chart Bechdel.group(:tests_explanation).count %>
+  <br><br>
+
+  <h1>What Percentage of Categories Passed?</h1>
+  <%= column_chart ({"Box Office" => @box_office_passed, "Cannes Film Festival" => @cannes_passed, "Top Rentals" => @top_rentals_passed}), max: 100, colors: ["purple", "#990099"] %>
+  <br><br>
+
+  <h1>Movies per Category</h1>
+  <%= column_chart ({ "Box Office" => @box_office, "Cannes Film Festival" => @cannes, "Top Rentals" => @top_rentals }) %>
+
+</center>
