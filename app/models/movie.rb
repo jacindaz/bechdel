@@ -6,7 +6,7 @@ class Movie < ActiveRecord::Base
   has_many :categories
 
   belongs_to :user
-  has_one :bechdel
+  belongs_to :bechdel
   has_one :canne
 
   validates :title, presence: true, uniqueness: { scope: :year }
@@ -22,6 +22,10 @@ class Movie < ActiveRecord::Base
   validates :country_produced, presence: true
   validates :user_id, presence: true
   validates :thumbnail_url, presence: true
+
+  @@box_office_last_updated = nil
+  @@top_rentals_last_updated = nil
+  @@top_rentals_last_updated = nil
 
   def self.return_index_title(params_title)
     case params_title
@@ -52,9 +56,16 @@ class Movie < ActiveRecord::Base
   end
 
   def self.return_movies(num_movies, category)
-    if category == "bechdel"
-      return Movie.return_bechdel_movies
+    # if category == "bechdel"
+    #   return Movie.return_bechdel_movies
+    # end
+    categories = Category.where(category: "#{category}")
+    movies = []
+    categories.each do |category|
+      movie = Movie.find(category.movie_id)
+      movies << movie
     end
+    movies
   end
 
   def self.search(query)
@@ -69,6 +80,11 @@ class Movie < ActiveRecord::Base
   def self.box_office(num_movies)
     key = ENV["ROTTEN_TOMATOES_KEY"]
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
+  end
+
+  def self.rotten_tomatoes_movie_search(title)
+    key = ENV["ROTTEN_TOMATOES_KEY"]
+    movie_search = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=#{key}&q={title}").read)
   end
 
   def self.movie_category(num_movies, category)
