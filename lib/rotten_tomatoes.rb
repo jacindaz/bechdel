@@ -9,6 +9,11 @@ class RottenTomatoes
     top_box_office = JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=#{key}&limit=#{num_movies}").read)
   end
 
+  def self.top_rentals(num_movies)
+    key = ENV["ROTTEN_TOMATOES_KEY"]
+    JSON.parse(open("http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=#{key}&limit=#{num_movies}").read)
+  end
+
   def self.movie_exists?(movie)
     Movie.find_by_title(movie.title).present?
   end
@@ -19,7 +24,7 @@ class RottenTomatoes
     binding.pry
   end
 
-  def self.add_genre_to_db
+  def self.pull_rotten_tomatoes_movies
   end
 
   def self.movie_info(movies, category)
@@ -40,7 +45,7 @@ class RottenTomatoes
   end
 
   def self.update_database(movie, category, rotten_tomatoes_id)
-    #binding.pry
+  #  binding.pry
     if !Movie.movie_exists?(movie)
       movie.save!
       Category.create(movie_id: movie.id, category: category)
