@@ -29,8 +29,14 @@ class Movie < ActiveRecord::Base
 
   def self.return_index_title(params_title)
     case params_title
-    when "bechdel"
+    when 'bechdel'
       return "Movies with Bechdel Test Ratings"
+    when 'box_office'
+      return 'Top Box Office Movies'
+    when 'rentals'
+      return 'Top Rental Movies'
+    when 'Cannes'
+      return 'Cannes Film Festival Movies'
     end
   end
 
