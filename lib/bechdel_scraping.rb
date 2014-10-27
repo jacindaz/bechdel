@@ -39,7 +39,6 @@ class BechdelScraping
       puts "Here's the info: #{bechdel_website}"
       puts "=====================================", nil
       return bechdel_website
-    end
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
@@ -120,4 +119,4 @@ class BechdelScraping
     end
   end
 
-#end
+end
