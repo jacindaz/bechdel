@@ -39,6 +39,7 @@ class BechdelScraping
       puts "Here's the info: #{bechdel_website}"
       puts "=====================================", nil
       return bechdel_website
+    end
   end
 
   #scrapes homepage of bechdeltest.com website, and creates array of movie titles
@@ -107,6 +108,7 @@ class BechdelScraping
     bechdel_info = bechdel_movie_info
     puts "This is all the bechdel info: #{bechdel_info}"
     bechdel_info.each do |movie|
+      #movie_in_db = Movie.find(:all, conditions: ["title LIKE ?", "%#{movie[:movie_title]}%"])
       movie_in_db = Movie.find_by_title(movie[:movie_title])
       if !movie_in_db.nil?
         Bechdel.create(movie_id: movie_in_db.id,
@@ -118,4 +120,4 @@ class BechdelScraping
     end
   end
 
-end
+#end

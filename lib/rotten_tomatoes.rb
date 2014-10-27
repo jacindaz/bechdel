@@ -46,10 +46,12 @@ class RottenTomatoes
       Category.create(movie_id: movie.id, category: category)
       RottenTomato.create(rotten_tomatoes_movie_id: rotten_tomatoes_id,
                                         movie_id: movie.id)
+      puts "Successfully saved: #{movie.title}"
     elsif Movie.movie_exists?(movie)
       existing_movie = Movie.find_by_title(movie.title)
       Category.where(category: category, movie_id: existing_movie.id).first_or_create
       RottenTomato.where(rotten_tomatoes_movie_id: rotten_tomatoes_id, movie_id: existing_movie.id).first_or_create
+      puts "Successfully updated: #{movie.title}"
     else
       puts "Error, movie and category could not be saved."
     end
