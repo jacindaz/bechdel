@@ -56,14 +56,15 @@ class Movie < ActiveRecord::Base
   end
 
   def self.return_movies(num_movies, category)
-    # if category == "bechdel"
-    #   return Movie.return_bechdel_movies
-    # end
-    categories = Category.where(category: "#{category}")
-    movies = []
-    categories.each do |category|
-      movie = Movie.find(category.movie_id)
-      movies << movie
+    if category == "bechdel"
+      return Movie.return_bechdel_movies
+    else
+      categories = Category.where(category: "#{category}")
+      movies = []
+      categories.each do |category|
+        movie = Movie.find(category.movie_id)
+        movies << movie
+      end
     end
     movies
   end
