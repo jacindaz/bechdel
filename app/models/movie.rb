@@ -8,6 +8,7 @@ class Movie < ActiveRecord::Base
   belongs_to :user
   belongs_to :bechdel
   has_one :canne
+  belongs_to :rottentomato
 
   validates :title, presence: true, uniqueness: { scope: :year }
   validates :year, presence: true, inclusion: { in: 1900..2014 }
