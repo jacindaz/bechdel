@@ -21,13 +21,9 @@ class RottenTomatoes
   def self.search_movie
     movie = Movie.find_by_title(@movie_title)
     rotten_tomatoes = Movie.rotten_tomatoes_movie_search(@movie_title)
-    binding.pry
   end
 
-  def self.pull_rotten_tomatoes_movies
-  end
-
-  def self.movie_info(movies, category)
+  def self.movie_info(movies)
     movies["movies"].each do |rt_movie|
       new_movie = Movie.new
       new_movie.title = rt_movie["title"]
@@ -39,22 +35,21 @@ class RottenTomatoes
       new_movie.thumbnail_url = thumbnail.sub("tmb", "org")
       new_movie.user_id = 1
 
-      RottenTomatoes.update_database(new_movie, category, rt_movie["id"])
+      RottenTomatoes.update_database(new_movie, @category, rt_movie["id"])
     end
 
   end
 
-  def self.update_database(movie, category, rotten_tomatoes_id)
-  #  binding.pry
+  def self.update_database(movie, rotten_tomatoes_id)
     if !Movie.movie_exists?(movie)
       movie.save!
-      Category.create(movie_id: movie.id, category: category)
+      Category.create(movie_id: movie.id, category: @category)
       RottenTomato.create(rotten_tomatoes_movie_id: rotten_tomatoes_id,
                                         movie_id: movie.id)
       puts "Successfully saved: #{movie.title}"
     elsif Movie.movie_exists?(movie)
       existing_movie = Movie.find_by_title(movie.title)
-      Category.where(category: category, movie_id: existing_movie.id).first_or_create
+      Category.where(category: @category, movie_id: existing_movie.id).first_or_create
       RottenTomato.where(rotten_tomatoes_movie_id: rotten_tomatoes_id, movie_id: existing_movie.id).first_or_create
       puts "Successfully updated: #{movie.title}"
     else
